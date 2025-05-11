@@ -11,6 +11,8 @@ path = "src/libs.rs"
 actix-web = "4.10.2"
 actix-cors = "0.7.1"
 serde = { version = "1.0.219", features = ["derive"] }
+shuttle-actix-web = "0.54.0"
+shuttle-runtime = "0.54.0"
 
 chrono = {version = "0.4.40", features = ["serde"]}
 mongodb = "3.2.3"

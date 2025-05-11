@@ -3,12 +3,15 @@ use actix_cors::Cors;
 use serde::{Serialize, Deserialize};
 use std::sync::{Mutex, MutexGuard};
 use actix_web::web::{Data, ServiceConfig};
+
 use chrono::{Utc, DateTime};
 use mongodb::bson::doc;
 use be::{blog_model::Blog, db::Database};
 
 use futures_util::StreamExt;
 use serde_json::json;
+
+use shuttle_actix_web::ShuttleActixWeb;
 
 
 #[derive(Deserialize)]
@@ -48,8 +51,31 @@ async fn get_blogs(data: Data<AppState>) -> impl Responder {
 }
 
 
-#[actix_web::main]
-async fn main() -> std::io::Result<()> {
+// #[actix_web::main]
+// async fn main() -> std::io::Result<()> {
+//
+//     let database = Database::init().await;
+//
+//     let app_state  = web::Data::new(AppState{
+//         blogs_list: Mutex::new(database),
+//         });
+//
+//     HttpServer::new(move || {
+//         let cors = Cors::default()
+//             .allow_any_method()
+//             .allow_any_origin()
+//             .allow_any_header()
+//             .max_age(3600);
+//
+//         App::new()
+//             .app_data(app_state.clone())
+//             .wrap(cors)
+//             .route("/blog", web::get().to(get_blogs))
+//     }).bind("127.0.0.1:8080").expect("failed").run().await
+// }
+
+#[shuttle_runtime::main]
+async fn main() -> ShuttleActixWeb<impl FnOnce(&mut ServiceConfig) + Send + Clone + 'static> {
 
     let database = Database::init().await;
 
@@ -57,16 +83,12 @@ async fn main() -> std::io::Result<()> {
         blogs_list: Mutex::new(database),
         });
 
-    HttpServer::new(move || {
-        let cors = Cors::default()
-            .allow_any_method()
-            .allow_any_origin()
-            .allow_any_header()
-            .max_age(3600);
+    let config = move |cfg: &mut ServiceConfig| {
+        // set up your service here, e.g.:
+        cfg.app_data(app_state.clone());
+        cfg.service(web::resource("blog").route(web::get().to(get_blogs)));
+    };
 
-        App::new()
-            .app_data(app_state.clone())
-            .wrap(cors)
-            .route("/blog", web::get().to(get_blogs))
-    }).bind("127.0.0.1:8080").expect("failed").run().await
+    Ok(config.into())
 }
+
