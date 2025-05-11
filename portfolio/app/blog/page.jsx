@@ -19,7 +19,7 @@ const Blog = () => {
 
     const fetch_blogs = async () => {
         try {
-            const response = await axios.get("http://127.0.0.1:8080/blog", {});
+            const response = await axios.get("portfolioo-141.shuttle.app/blog", {});
             console.log(response);
             set_blogs(response.data);
             set_blogs_copy(response.data);

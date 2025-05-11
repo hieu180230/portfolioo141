@@ -12,6 +12,7 @@ use futures_util::StreamExt;
 use serde_json::json;
 
 use shuttle_actix_web::ShuttleActixWeb;
+use shuttle_runtime::SecretStore;
 
 
 #[derive(Deserialize)]
@@ -75,9 +76,9 @@ async fn get_blogs(data: Data<AppState>) -> impl Responder {
 // }
 
 #[shuttle_runtime::main]
-async fn main() -> ShuttleActixWeb<impl FnOnce(&mut ServiceConfig) + Send + Clone + 'static> {
+async fn main(#[shuttle_runtime::Secrets] secrets: SecretStore,) -> ShuttleActixWeb<impl FnOnce(&mut ServiceConfig) + Send + Clone + 'static> {
 
-    let database = Database::init().await;
+    let database = Database::init(secrets).await;
 
     let app_state  = web::Data::new(AppState{
         blogs_list: Mutex::new(database),
