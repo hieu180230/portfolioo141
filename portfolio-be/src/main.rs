@@ -87,7 +87,15 @@ async fn main(#[shuttle_runtime::Secrets] secrets: SecretStore,) -> ShuttleActix
     let config = move |cfg: &mut ServiceConfig| {
         // set up your service here, e.g.:
         cfg.app_data(app_state.clone());
-        cfg.service(web::resource("blog").route(web::get().to(get_blogs)));
+        cfg.service(web::resource("blog")
+            .route(web::get().to(get_blogs))
+            .wrap(Cors::default()
+                .allow_any_method()
+                .allow_any_origin()
+                .allow_any_header()
+                .max_age(3600)
+            )
+        );
     };
 
     Ok(config.into())
