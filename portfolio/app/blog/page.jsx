@@ -19,9 +19,10 @@ const Blog = () => {
 
     const fetch_blogs = async () => {
         try {
-            const response = await axios.get("https://porfolioo141-5qav.shuttle.app/blog", {});
+            const response = await axios.get("https://portfolioo-141.shuttle.app/blog", {});
             console.log(response);
-            set_blogs(response.data);
+            set_blog(response.data[0])
+            set_blogs(response.data)
             set_blogs_copy(response.data);
         } catch (err) {
             console.log(err)
@@ -40,19 +41,21 @@ const Blog = () => {
 
     const render_blog = (blogs_to_render) => {
         return blogs_to_render.map((blog, index) => (
-            <li key={index}
-                className="btn bg-accent hover:bg-destructive-foreground text-accent hover:text-destructive-foreground transition-colors font-bold text-xl"
-                onClick={event => set_blog(blog)}>
-                <span className="btn_content bg-white">
-                    <label htmlFor=""></label>
-                    <span className="py-10">
-                        {`${blog.title}`}
+            <span key={index} tabIndex="-1" className="transition-all btn-shadow">
+                <li key={index}
+                    className="btn bg-accent hover:bg-destructive-foreground text-accent hover:text-destructive-foreground transition-all font-bold text-xl"
+                    onClick={event => set_blog(blog)}>
+                    <span className="btn_content bg-white ">
+                        <label htmlFor=""></label>
+                        <span className="py-10">
+                            {`${blog.title}`}
+                        </span>
+
                     </span>
-                    
-                </span>
-                
-                <span className="btn_label">{`${from_date(blog.created_at)}`}</span>
-            </li>
+
+                    <span className="btn_label">{`${from_date(blog.created_at)}`}</span>
+                </li>
+            </span>
         ))
     }
 
@@ -64,7 +67,7 @@ const Blog = () => {
         <div className="blog-page">
             {/* Body */}
             <div className="container py-10 flex flex-row w-max px-50">
-                <ul className="text-center flex flex-col w-full min-w-[300px] gap-6 mx-10">
+                <ul className="text-center flex flex-col w-full min-w-auto gap-6 mx-10">
                     {render_blog(blogs)}
                 </ul>
                 {blogs.length === 0 && (
@@ -72,11 +75,13 @@ const Blog = () => {
                         <h1 className="text-center "> NOT FOUND</h1>
                     </div>
                 )}
-                <div className="">
-                    <div className="btn bg-accent text-accent">
-                        <div className="btn_content bg-white"> {`${blog.content}`} </div>
+                {blogs.length !== 0 && (
+                    <div className="">
+                        <div className="btn bg-accent text-accent">
+                            <div className="btn_content bg-white"> {`${blog.content}`} </div>
+                        </div>
                     </div>
-                </div>
+                )}
             </div>
         </div>
     </div>);
