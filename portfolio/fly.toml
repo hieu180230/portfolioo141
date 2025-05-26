@@ -2,8 +2,6 @@ app = "portfolioo-141"
 primary_region = "sin"
 
 [build]
-  builder = "paketobuildpacks/builder:base"
-  buildpacks = ["gcr.io/paketo-buildpacks/nodejs"]
   dockerfile = "Dockerfile"
 
 [deploy]
