@@ -1,0 +1,4 @@
+app = "portfolioo-141"
+
+[build]
+  dockerfile = "portfolio/Dockerfile"
