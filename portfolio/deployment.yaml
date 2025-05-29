@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Deployment
+metadata: 
+  name: portfolioo141-deployment
+  labels:
+    app: portfolioo141
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: portfolioo141
+  template:
+    metadata:
+      labels: 
+        app: portfolioo141
+    spec:
+      containers:
+        - name: portfolioo141
+          image: hieu18022004/portfolioo141:latest
+          ports:
+            - containerPort: 3000
