@@ -1,0 +1,9 @@
+.git
+.results
+scripts
+*Dockerfile*
+node_modules
+.env
+.dockerignore
+.next
+README.md

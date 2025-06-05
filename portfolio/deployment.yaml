@@ -1,7 +1,7 @@
-apiVersion: v1
+apiVersion: apps/v1
 kind: Deployment
 metadata: 
-  name: portfolioo141-deployment
+  name: p-deployment
   labels:
     app: portfolioo141
 spec:
@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
         - name: portfolioo141
-          image: hieu18022004/portfolioo141:latest
+          image: hieu18022004/portfolioo141:v3
           ports:
             - containerPort: 3000

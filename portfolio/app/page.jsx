@@ -16,7 +16,7 @@ const Home = () => {
               Hello I'm<br /> <span className="text-accent">Name name</span>
             </h1>
             <p className="max-w-[500px] mb-9 text-primary">
-              Skils bla bla bla lorem ispum
+              Sun Minus used Explosion! Critical damage! x2 damage!
             </p>
             <div className="flex flex-col xl:flex-row items-center gap-8">
               <Button variant="outline" size="lg" className="uppercase flex items-center gap-2">

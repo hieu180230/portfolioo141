@@ -9,10 +9,12 @@ use mongodb::bson::doc;
 use be::{blog_model::Blog, db::Database};
 
 use futures_util::StreamExt;
+use mongodb::bson::oid::ObjectId;
 use serde_json::json;
 
 use shuttle_actix_web::ShuttleActixWeb;
 use shuttle_runtime::SecretStore;
+use be::blog_model::AddBlog;
 
 
 #[derive(Deserialize)]
@@ -49,6 +51,32 @@ async fn get_blogs(data: Data<AppState>) -> impl Responder {
         vec_data.push(document.expect("add document to vector error"));
     }
     HttpResponse::Ok().json(vec_data)
+}
+
+async fn add_blog(data: Data<AppState>, blog: web::Json<AddBlog>) -> impl Responder {
+    let blogs: MutexGuard<Database> = data.blogs_list.lock().unwrap();
+    let new_blog = Blog{
+        _id: ObjectId::new(),
+        title: blog.title.clone(),
+        content: blog.content.clone(),
+        created_at: chrono::Local::now().format("%a %b %d %Y").to_string(),
+        author: blog.author.clone(),
+    };
+    let res = blogs.blogs.insert_one(new_blog).await;
+    match res {
+        Ok(T) => {
+            let mut cursor = blogs.blogs.find(doc!{}).await.unwrap();
+            let mut vec_data: Vec<Blog> = Vec::new();
+            while let Some(document) = cursor.next().await {
+                vec_data.push(document.expect("add document to vector error"));
+            }
+            return HttpResponse::Ok().json(vec_data)
+        }
+        Err(E) => {
+            return HttpResponse::Ok().body(E.to_string());
+        }
+    }
+
 }
 
 
@@ -89,6 +117,7 @@ async fn main(#[shuttle_runtime::Secrets] secrets: SecretStore,) -> ShuttleActix
         cfg.app_data(app_state.clone());
         cfg.service(web::resource("blog")
             .route(web::get().to(get_blogs))
+            .route(web::post().to(add_blog))
             .wrap(Cors::default()
                 .allow_any_method()
                 .allow_any_origin()
