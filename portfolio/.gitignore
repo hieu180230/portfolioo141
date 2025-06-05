@@ -23,6 +23,7 @@
 # misc
 .DS_Store
 *.pem
+.dockerignore
 
 # debug
 npm-debug.log*

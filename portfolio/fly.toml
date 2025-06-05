@@ -1,5 +1,10 @@
-app = "cookieee"
-primary_region = "sin"
+# fly.toml app configuration file generated for cookie-nnhieu on 2025-06-05T14:08:18+07:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'cookie-nnhieu'
+primary_region = 'sin'
 
 [build]
 
