@@ -39,7 +39,7 @@ const Work = () => {
                 >
                     {works.map((service, index) => {
                         return (
-                            <div key={index} className="flex-1 flex flex-col justify-center gap-6 group bg-primary-hover px-6 py-4 rounded-xl shadow hover:shadow-purple-900 hover:shadow-lg border-b-4 hover:border-accent transition-all mx-4">
+                            <div key={index} className="flex-1 flex flex-col justify-center gap-6 group bg-primary-hover px-6 py-4 rounded-xl shadow hover:drop-shadow-accent-alt hover:shadow-lg border-b-4 hover:border-accent transition-all mx-4">
                                 <div className="w-full flex justify-between items-center">
                                     <div className="text-5xl font-extrabold text-accent transition-all duration-500">{service.num}</div>
                                     <Link href={service.href} className="w-[50px] h-[50px] rounded-full bg-accent group-hover:bg-destructive transition-all duration-500 flex justify-center items-center group-hover:-rotate-45 ">

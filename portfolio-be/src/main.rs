@@ -1,93 +1,19 @@
-use actix_web::{web, App, HttpServer, Responder, HttpResponse};
+use actix_web::{web, web::{Data, ServiceConfig}, App, HttpServer, Responder, HttpResponse};
 use actix_cors::Cors;
 use serde::{Serialize, Deserialize};
-use std::sync::{Mutex, MutexGuard};
-use actix_web::web::{Data, ServiceConfig};
-
+use std::sync::Mutex;
 use chrono::{Utc, DateTime};
-use mongodb::bson::doc;
-use be::{blog_model::Blog, db::Database};
-
-use futures_util::StreamExt;
-use mongodb::bson::oid::ObjectId;
-use serde_json::json;
 
 use shuttle_actix_web::ShuttleActixWeb;
 use shuttle_runtime::SecretStore;
-use be::blog_model::AddBlog;
+
+use be::{blog_model::{get_blogs, add_blog},
+         project_model::{get_projects},
+         db::Database,
+         appstate::AppState};
 
 
-#[derive(Deserialize)]
-struct CreateBlog {
-    title: String,
-    content: String,
-    author: String,
-}
 
-#[derive(Deserialize)]
-struct UpdateBlog {
-    title: Option<String>,
-    content: Option<String>,
-    author: Option<String>,
-}
-
-struct AppState {
-    blogs_list: Mutex<Database>,
-}
-
-impl AppState {
-    async fn new(blog: Database) -> Self{
-        AppState {
-            blogs_list: Mutex::new(blog),
-        }
-    }
-}
-
-async fn get_blogs(data: Data<AppState>) -> impl Responder {
-    let blogs: MutexGuard<Database> = data.blogs_list.lock().unwrap();
-    let mut cursor = blogs.blogs.find(doc!{}).await.unwrap();
-    let mut vec_data: Vec<Blog> = Vec::new();
-    while let Some(document) = cursor.next().await {
-        vec_data.push(document.expect("add document to vector error"));
-    }
-
-    for blog in vec_data.iter_mut() {
-        if (blog.tags.is_empty()) {
-            blog.tags.push("#guest".to_string());
-        }
-        else if (blog.tags[0].is_empty()) {
-            blog.tags[0] = "#guest".to_string();
-        }
-    }
-    HttpResponse::Ok().json(vec_data)
-}
-
-async fn add_blog(data: Data<AppState>, blog: web::Json<AddBlog>) -> impl Responder {
-    let blogs: MutexGuard<Database> = data.blogs_list.lock().unwrap();
-    let new_blog = Blog{
-        _id: ObjectId::new(),
-        title: blog.title.clone(),
-        content: blog.content.clone(),
-        created_at: chrono::Local::now().format("%a %b %d %Y").to_string(),
-        author: blog.author.clone(),
-        tags: blog.tags.clone(),
-    };
-    let res = blogs.blogs.insert_one(new_blog).await;
-    match res {
-        Ok(T) => {
-            let mut cursor = blogs.blogs.find(doc!{}).await.unwrap();
-            let mut vec_data: Vec<Blog> = Vec::new();
-            while let Some(document) = cursor.next().await {
-                vec_data.push(document.expect("add document to vector error"));
-            }
-            return HttpResponse::Ok().json(vec_data)
-        }
-        Err(E) => {
-            return HttpResponse::Ok().body(E.to_string());
-        }
-    }
-
-}
 
 
 // #[actix_web::main]
@@ -96,7 +22,7 @@ async fn add_blog(data: Data<AppState>, blog: web::Json<AddBlog>) -> impl Respon
 //     let database = Database::init().await;
 //
 //     let app_state  = web::Data::new(AppState{
-//         blogs_list: Mutex::new(database),
+//         database: Mutex::new(database),
 //         });
 //
 //     HttpServer::new(move || {
@@ -119,7 +45,7 @@ async fn main(#[shuttle_runtime::Secrets] secrets: SecretStore,) -> ShuttleActix
     let database = Database::init(secrets).await;
 
     let app_state  = web::Data::new(AppState{
-        blogs_list: Mutex::new(database),
+        database: Mutex::new(database),
         });
 
     let config = move |cfg: &mut ServiceConfig| {
@@ -134,7 +60,14 @@ async fn main(#[shuttle_runtime::Secrets] secrets: SecretStore,) -> ShuttleActix
                 .allow_any_header()
                 .max_age(3600)
             )
-        );
+        ).service(web::resource("project")
+            .route(web::get().to(get_projects))
+            .wrap(Cors::default()
+                .allow_any_method()
+                .allow_any_origin()
+                .allow_any_header()
+                .max_age(3600)
+            ));
     };
 
     Ok(config.into())

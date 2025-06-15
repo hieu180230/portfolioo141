@@ -5,9 +5,11 @@ use serde::{Deserialize, Serialize};
 use shuttle_runtime::SecretStore;
 
 use crate::blog_model;
+use crate::project_model;
 
 pub struct Database {
-    pub blogs: Collection<blog_model::Blog>
+    pub blogs: Collection<blog_model::Blog>,
+    pub projects: Collection<project_model::Project>,
 }
 
 impl Database {
@@ -23,9 +25,10 @@ impl Database {
         let client = Client::with_uri_str(secret).await.unwrap();
         let db = client.database("Blogs");
         let blogs_collection: Collection<blog_model::Blog> = db.collection("blogs");
-
+        let projects_collection: Collection<project_model::Project> = db.collection("projects");
         Database {
-            blogs:blogs_collection,
+            blogs: blogs_collection,
+            projects: projects_collection,
         }
 
     }
