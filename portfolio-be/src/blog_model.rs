@@ -10,6 +10,7 @@ pub struct Blog {
     pub content: String,
     pub created_at: String,
     pub author: String,
+    pub tags: Vec<String>,
 }
 
 #[derive(Deserialize, Clone)]
@@ -17,6 +18,7 @@ pub struct AddBlog {
     pub title: String,
     pub content: String,
     pub author: String,
+    pub tags: Vec<String>,
 }
 
 

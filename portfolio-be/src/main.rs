@@ -50,6 +50,15 @@ async fn get_blogs(data: Data<AppState>) -> impl Responder {
     while let Some(document) = cursor.next().await {
         vec_data.push(document.expect("add document to vector error"));
     }
+
+    for blog in vec_data.iter_mut() {
+        if (blog.tags.is_empty()) {
+            blog.tags.push("#guest".to_string());
+        }
+        else if (blog.tags[0].is_empty()) {
+            blog.tags[0] = "#guest".to_string();
+        }
+    }
     HttpResponse::Ok().json(vec_data)
 }
 
@@ -61,6 +70,7 @@ async fn add_blog(data: Data<AppState>, blog: web::Json<AddBlog>) -> impl Respon
         content: blog.content.clone(),
         created_at: chrono::Local::now().format("%a %b %d %Y").to_string(),
         author: blog.author.clone(),
+        tags: blog.tags.clone(),
     };
     let res = blogs.blogs.insert_one(new_blog).await;
     match res {
