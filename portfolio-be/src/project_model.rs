@@ -13,6 +13,7 @@ pub struct Project {
     pub title: String,
     pub description: String,
     pub href: String,
+    pub img_url: String,
 }
 
 pub async fn get_projects(data: Data<AppState>) -> impl Responder{

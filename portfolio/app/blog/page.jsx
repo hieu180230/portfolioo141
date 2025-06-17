@@ -3,30 +3,29 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { format, formatDate } from "date-fns"
-import ReactMarkdown from 'react-markdown'
 import Link from "next/link";
-import Image from 'next/image'
-import { Button } from "@/components/ui/button";
+
 
 const Blog = () => {
 
     const [blogs, set_blogs] = useState([]);
-    const [blogs_copy, set_blogs_copy] = useState(blogs);
-    const [blog, set_blog] = useState();
 
+    const [blog, set_blog] = useState();
     const [count, set_count] = useState(0);
 
+
     useEffect(() => {
-        fetch_blogs();
+        fetch_blogs()
     }, [count]);
 
     const fetch_blogs = async () => {
         try {
-            const response = await axios.get("https://portfolioo-141.shuttle.app/blog", {});
-            console.log(response);
-            set_blog(response.data[0])
-            set_blogs(response.data)
-            set_blogs_copy(response.data);
+            const response = await axios.get("https://portfolioo-141.shuttle.app/blog");
+            set_blogs(response.data);
+            set_blog(response.data[0]);
+            console.log(response.data);
+            console.log(blogs);
+            set_count(response.data.length)
         } catch (err) {
             console.log(err)
         }
@@ -70,7 +69,7 @@ const Blog = () => {
         )
     }
 
-    const render_latest = async (blogs_to_render) => {
+    const render_latest = (blogs_to_render) => {
         return (
             <div className="grid grid-cols-4 grid-rows-2 gap-4 h-full">
 
@@ -178,7 +177,7 @@ const Blog = () => {
         {/* Body */}
         {/* {render_blogs(blogs)} */}
 
-        {render_latest(blogs)}
+        {/* {render_latest(blogs)} */}
         <div className="transition-all btn-shadow w-fit fixed bottom-5 right-5">
             <div className="btn cp-add-button bg-accent hover:bg-destructive-foreground text-accent hover:text-destructive-foreground transition-all font-bold text-xl h-[60px] w-[60px] place-self-end">
                 <Link href="/blog/add">
