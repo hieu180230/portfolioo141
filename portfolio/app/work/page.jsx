@@ -29,10 +29,10 @@ const Work = () => {
 
 
     return (
-        <section className="w-3/4 m-auto flex flex-col justify-center py-12 xl:py-10">
+        <section className="container w-screen flex flex-col justify-center mx-auto">
             {projects.length > 0 ?
                 (
-                    <div className="h-3/4 py-10 flex">
+                    <div className="h-fit w-full flex relative my-10 overflow-visible">
                         <Carousel data={projects} />
                     </div>
                 ) :
@@ -41,30 +41,34 @@ const Work = () => {
                         <Loading />
                     </div>
                 )}
-            <div className="container mx-auto h-full">
 
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{
-                        opacity: 1,
-                        transition: { delay: 0.4, duration: 0.4, ease: "easeIn" }
-                    }}
-                    className="grid grid-cols-1 md:grid-cols-2 gap-[60px]"
-                >
-                    {projects.map((service, index) => {
-                        return (
-                            <div key={index} className="flex-1 flex flex-col justify-center gap-6 group bg-primary-hover px-6 py-4 rounded-xl shadow hover:shadow-destructive-hover hover:shadow-lg border-b-4 border-accent hover:border-destructive-foreground hover:scale-110 transition-all mx-4">
-                                <div className="w-full flex justify-between items-center">
-                                    <div className="text-5xl font-extrabold text-primary transition-all duration-500">{service.title}</div>
-                                    <Link href={service.href} className="w-[50px] h-[50px] rounded-full bg-accent group-hover:bg-destructive-hover transition-all duration-500 flex justify-center items-center group-hover:-rotate-45 ">
-                                        <BsArrowDownRight className="text-primary-hover text-2xl" />
-                                    </Link>
+            <div className="flex flex-col">
+                <span className="h-10 py-10 text-center font-bold text-2xl"> Full projects </span>
+                <div className="container mx-auto h-full py-10">
+
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{
+                            opacity: 1,
+                            transition: { delay: 0.4, duration: 0.4, ease: "easeIn" }
+                        }}
+                        className="grid grid-cols-1 md:grid-cols-2 gap-[60px]"
+                    >
+                        {projects.map((service, index) => {
+                            return (
+                                <div key={index} className="flex-1 flex flex-col justify-center gap-6 group bg-primary-hover px-6 py-4 rounded-xl shadow hover:shadow-destructive-hover hover:shadow-lg border-b-4 border-accent hover:border-destructive-foreground hover:scale-110 transition-all mx-4">
+                                    <div className="w-full flex justify-between items-center">
+                                        <div className="text-3xl font-bold text-primary transition-all duration-500">{service.title}</div>
+                                        <Link href={service.href} className="min-w-[50px] min-h-[50px] rounded-full bg-accent group-hover:bg-destructive-hover transition-all duration-500 flex justify-center items-center group-hover:-rotate-45 ">
+                                            <BsArrowDownRight className="text-primary-hover text-2xl" />
+                                        </Link>
+                                    </div>
+                                    <p className="text-primary font-medium whitespace-pre-wrap text-left">{service.description}</p>
                                 </div>
-                                <p className="text-primary/80 ">{service.description}</p>
-                            </div>
-                        );
-                    })}
-                </motion.div>
+                            );
+                        })}
+                    </motion.div>
+                </div>
             </div>
         </section>
     );

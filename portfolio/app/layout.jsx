@@ -25,9 +25,9 @@ export default function RootLayout({ children }) {
     <html lang="en" className="h-full w-full">
 
       <body
-        className={`${cinzel.className} font-mono antialiased h-full w-full self-center`}
+        className={`${cinzel.className} font-mono antialiased h-full w-full self-center overflow-y-scroll flex flex-col`}
       >
-        <Header />
+        <Header className=""/>
         {/* <StairTransition/>
         <PageTransition>{children}</PageTransition> */}
         <Suspense fallback={<Loading/>}>

@@ -1,14 +1,14 @@
 "use client"
 
 import React from 'react'
-import Link from "next/link";
 import { useSearchParams } from 'next/navigation'
+import Loading from '@/app/loading';
 
-const BlogView = (context) => {
+const BlogView = ({ searchParams }) => {
 
   const params = useSearchParams()
   const post_id = params.get("id");
-  const blog = context.query;
+  console.log(searchParams);
   return (
     <div>
       {post_id}
@@ -28,7 +28,6 @@ const BlogView = (context) => {
             </div>
           </div>
         </div>
-
       </div>
     </div>
   )
