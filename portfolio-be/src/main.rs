@@ -7,7 +7,7 @@ use chrono::{Utc, DateTime};
 use shuttle_actix_web::ShuttleActixWeb;
 use shuttle_runtime::SecretStore;
 
-use be::{blog_model::{get_blogs, add_blog},
+use be::{blog_model::{get_blogs, get_blog_by_id, add_blog},
          project_model::{get_projects},
          db::Database,
          appstate::AppState};
@@ -51,8 +51,17 @@ async fn main(#[shuttle_runtime::Secrets] secrets: SecretStore,) -> ShuttleActix
     let config = move |cfg: &mut ServiceConfig| {
         // set up your service here, e.g.:
         cfg.app_data(app_state.clone());
-        cfg.service(web::resource("blog")
+        cfg.service(web::resource("blog/view")
+            .route(web::get().to(get_blog_by_id))
+            .wrap(Cors::default()
+                .allow_any_method()
+                .allow_any_origin()
+                .allow_any_header()
+                .max_age(3600)
+            )
+        ).service(web::resource("blog")
             .route(web::get().to(get_blogs))
+            .route(web::get().to(get_blog_by_id))
             .route(web::post().to(add_blog))
             .wrap(Cors::default()
                 .allow_any_method()

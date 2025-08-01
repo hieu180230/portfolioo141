@@ -1,5 +1,5 @@
 use std::sync::MutexGuard;
-use actix_web::{HttpResponse, Responder, web, web::Data};
+use actix_web::{HttpResponse, Responder, web, web::Data, get};
 use mongodb::bson::{oid::ObjectId, DateTime, doc};
 use serde::{Deserialize, Serialize};
 use futures_util::StreamExt;
@@ -8,7 +8,7 @@ use serde_json::json;
 use crate::appstate::AppState;
 use crate::db::Database;
 
-#[derive(Serialize, Deserialize, Clone)]
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct Blog {
     pub _id: ObjectId,
     pub title: String,
@@ -24,6 +24,11 @@ pub struct AddBlog {
     pub content: String,
     pub author: String,
     pub tags: Vec<String>,
+}
+
+#[derive(Deserialize)]
+pub struct BlogID {
+    pub id: String,
 }
 
 pub async fn get_blogs(data: Data<AppState>) -> impl Responder {
@@ -43,6 +48,35 @@ pub async fn get_blogs(data: Data<AppState>) -> impl Responder {
         }
     }
     HttpResponse::Ok().json(vec_data)
+}
+
+pub async fn get_blog_by_id(data: Data<AppState>, query: web::Query<BlogID>) -> impl Responder {
+    let blogs: MutexGuard<Database> = data.database.lock().unwrap();
+    let id = ObjectId::parse_str(query.id.clone());
+    match id {
+        Ok(T) => {
+            let mut cursor = blogs.blogs.find_one(doc!{"_id": T}).await;
+            match cursor {
+                Ok(document) => {
+                    if document.is_some() {
+                        return HttpResponse::Ok().json(document);
+                    }
+                    else {
+                        return HttpResponse::Ok().json("None");
+                    }
+                }
+                Err(E) => {
+                    return HttpResponse::Ok().json(format!("{E}"));
+                }
+            }
+        }
+        Err(E) => {
+            return HttpResponse::Ok().json(format!("{E}"));
+        }
+    }
+
+
+
 }
 
 pub async fn add_blog(data: Data<AppState>, blog: web::Json<AddBlog>) -> impl Responder {
