@@ -75,7 +75,7 @@ const Blog = () => {
                         <div key={index} tabIndex="-1" className="flex transition-all btn-shadow h-1/7 w-full my-2 align-baseline hover:scale-105">
                             <li key={index}
                                 className="btn cp-panel bg-accent hover:bg-destructive-foreground flex text-primary font-bold text-xl h-full w-full">
-                                <Link href={{ pathname: "/blog/view", query: blog }} as={`blog/view?id=${blog._id.$oid}`} className="place-self-end">
+                                <Link href={{ pathname: "/blog/view", query: blog.$oid }} as={`blog/view?id=${blog._id.$oid}`} className="place-self-end">
                                     <div className="btn-content bg-white cp-panel items-center flex flex-col">
                                         <div className="py-2 px-2 text-center w-full panel-title">
                                             {`${blog.title}`}
