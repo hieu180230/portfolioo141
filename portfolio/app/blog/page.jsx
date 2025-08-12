@@ -82,7 +82,7 @@ const Blog = () => {
                                         </div>
                                         <div className="flex flex-row overflow-scroll overflow-y-hidden h-fit w-full px-2 justify-center">
                                             {blog.tags.map((tag, index) => (
-                                                <div className="btn cp-tag bg-accent w-[6rem] h-[2rem] flex text-accent font-bold text-lg">
+                                                <div className="btn cp-tag bg-accent w-[9rem] h-[2rem] flex text-accent font-bold text-sm">
                                                     <div className="btn-content cp-tag bg-white items-center justify-center z-2">
                                                         {tag}
                                                     </div>
@@ -134,96 +134,91 @@ const Blog = () => {
                     {/* Feature */}
                     <div className="item-shadow transition-all col-span-2 row-span-2 row-start-1 col-start-3 z-2">
                         <div className="btn cp-item item w-full h-full align-top bg-accent">
-                            <div className="btn-content cp-item item-normal flex flex-col z-1 bg-white justify-center">
-                                <img src="assets/image/morgana.jpg" className="image absolute bottom-[40px] align-baseline z-1" />
-                                <div className="z-5 align-baseline absolute right-0 bottom-0 left-0 bg-white">
-                                    <div className="flex flex-col w-full h-fit py-5 px-2 border-t-2 border-accent text-center content-center z-10 break-words">
-                                        <span className="item-title font-bold">{blogs_to_render[blogs_to_render.length - 1].title}</span>
+                            <Link href={{ pathname: "/blog/view", query: blogs_to_render[blogs_to_render.length - 1].$oid }} as={`blog/view?id=${blogs_to_render[blogs_to_render.length - 1]._id.$oid}`} className="place-self-end">
+                                <div className="btn-content cp-item item-normal flex flex-col z-1 bg-white justify-center">
+                                    <img src="assets/image/morgana.jpg" className="image absolute bottom-[40px] align-baseline z-1" />
+                                    <div className="z-5 align-baseline absolute right-0 bottom-0 left-0 bg-white">
+                                        <div className="flex flex-col w-full h-fit py-5 px-2 border-t-2 border-accent text-center content-center z-10 break-words">
+                                            <span className="item-title font-bold">{blogs_to_render[blogs_to_render.length - 1].title}</span>
+                                        </div>
+                                        <div className="blog-title view-btn w-full text-center content-center z-3">explore</div>
                                     </div>
-                                    <div className="blog-title view-btn w-full text-center content-center z-3">explore</div>
                                 </div>
-                            </div>
+                            </Link>
                         </div>
                     </div>
 
                     <div className="item-shadow transition-all">
                         <div className="btn cp-item item w-full h-full align-top bg-accent">
-                            <div className="btn-content cp-item item-normal flex flex-col z-1 bg-white justify-center">
-                                <img src="assets/image/morgana.jpg" className="image absolute bottom-[40px] align-baseline z-1" />
-                                <div className="z-5 align-baseline absolute right-0 bottom-0 left-0 bg-white">
-                                    <div className="flex flex-col w-full h-fit py-5 px-2 border-t-2 border-accent text-center content-center z-10 break-words">
-                                        <span className="item-title font-bold">{blogs_to_render[blogs_to_render.length - 2].title}</span>
-                                        {/* <span className="">
-                                            {blogs_to_render[blogs_to_render.length - 2].tags.map((tag, index) => (
-                                                <span className="w-fit h-fit py-[2px] px-[1px] text-[17px] font-medium">{tag}</span>
-                                            ))}
-                                        </span> */}
+                            <Link href={{ pathname: "/blog/view", query: blogs_to_render[blogs_to_render.length - 2].$oid }} as={`blog/view?id=${blogs_to_render[blogs_to_render.length - 2]._id.$oid}`} className="place-self-end">
+                                <div className="btn-content cp-item item-normal flex flex-col z-1 bg-white justify-center">
+                                    <img src="assets/image/morgana.jpg" className="image absolute bottom-[40px] align-baseline z-1" />
+                                    <div className="z-5 align-baseline absolute right-0 bottom-0 left-0 bg-white">
+                                        <div className="flex flex-col w-full h-fit py-5 px-2 border-t-2 border-accent text-center content-center z-10 break-words">
+                                            <span className="item-title font-bold">{blogs_to_render[blogs_to_render.length - 2].title}</span>
+                                        </div>
+                                        <div className="blog-title view-btn w-full text-center content-center z-3">explore</div>
                                     </div>
-                                    <div className="blog-title view-btn w-full text-center content-center z-3">explore</div>
                                 </div>
-                            </div>
+                            </Link>
                         </div>
                     </div>
 
                     <div className="item-shadow transition-all">
                         <div className="btn cp-item item w-full h-full align-top bg-accent">
-                            <div className="btn-content cp-item item-normal flex flex-col z-1 bg-white justify-center">
-                                <img src="assets/image/morgana.jpg" className="image absolute bottom-[40px] align-baseline z-1" />
-                                <div className="z-5 align-baseline absolute right-0 bottom-0 left-0 bg-white">
-                                    <div className="flex flex-col w-full h-fit py-5 px-2 border-t-2 border-accent text-center content-center z-10 break-words">
-                                        <span className="item-title font-bold">{blogs_to_render[blogs_to_render.length - 3].title}</span>
-                                        {/* <span className="">
-                                            {blogs_to_render[blogs_to_render.length - 3].tags.map((tag, index) => (
-                                                <span className="w-fit h-fit py-[2px] px-[1px] text-[17px] font-medium">{tag}</span>
-                                            ))}
-                                        </span> */}
+                            <Link href={{ pathname: "/blog/view", query: blogs_to_render[blogs_to_render.length - 3].$oid }} as={`blog/view?id=${blogs_to_render[blogs_to_render.length - 3]._id.$oid}`} className="place-self-end">
+                                <div className="btn-content cp-item item-normal flex flex-col z-1 bg-white justify-center">
+                                    <img src="assets/image/morgana.jpg" className="image absolute bottom-[40px] align-baseline z-1" />
+                                    <div className="z-5 align-baseline absolute right-0 bottom-0 left-0 bg-white">
+                                        <div className="flex flex-col w-full h-fit py-5 px-2 border-t-2 border-accent text-center content-center z-10 break-words">
+                                            <span className="item-title font-bold">{blogs_to_render[blogs_to_render.length - 3].title}</span>
+                                        </div>
+                                        <div className="blog-title view-btn w-full text-center content-center z-3">explore</div>
                                     </div>
-                                    <div className="blog-title view-btn w-full text-center content-center z-3">explore</div>
                                 </div>
-                            </div>
+                            </Link>
                         </div>
                     </div>
 
                     <div className="item-shadow transition-all row-start-2">
                         <div className="btn cp-item item w-full h-full align-top bg-accent">
-                            <div className="btn-content cp-item item-normal flex flex-col z-1 bg-white justify-center">
-                                <img src="assets/image/morgana.jpg" className="image absolute bottom-[40px] align-baseline z-1" />
-                                <div className="z-5 align-baseline absolute right-0 bottom-0 left-0 bg-white">
-                                    <div className="flex flex-col w-full h-fit py-5 px-2 border-t-2 border-accent text-center content-center z-10 break-words">
-                                        <span className="item-title font-bold">{blogs_to_render[blogs_to_render.length - 4].title}</span>
-                                        {/* <span className="">
+                            <Link href={{ pathname: "/blog/view", query: blogs_to_render[blogs_to_render.length - 4].$oid }} as={`blog/view?id=${blogs_to_render[blogs_to_render.length - 4]._id.$oid}`} className="place-self-end">
+                                <div className="btn-content cp-item item-normal flex flex-col z-1 bg-white justify-center">
+                                    <img src="assets/image/morgana.jpg" className="image absolute bottom-[40px] align-baseline z-1" />
+                                    <div className="z-5 align-baseline absolute right-0 bottom-0 left-0 bg-white">
+                                        <div className="flex flex-col w-full h-fit py-5 px-2 border-t-2 border-accent text-center content-center z-10 break-words">
+                                            <span className="item-title font-bold">{blogs_to_render[blogs_to_render.length - 4].title}</span>
+                                            {/* <span className="">
                                             {blogs_to_render[blogs_to_render.length - 4].tags.map((tag, index) => (
                                                 <span className="w-fit h-fit py-[2px] px-[1px] text-[17px] font-medium">{tag}</span>
                                             ))}
                                         </span> */}
+                                        </div>
+                                        <div className="blog-title view-btn w-full text-center content-center z-3">explore</div>
                                     </div>
-                                    <div className="blog-title view-btn w-full text-center content-center z-3">explore</div>
                                 </div>
-                            </div>
+                            </Link>
                         </div>
                     </div>
 
                     <div className="item-shadow transition-all row-start-2">
                         <div className="btn cp-item item w-full h-full align-top bg-accent">
-                            <div className="btn-content cp-item item-normal flex flex-col z-1 bg-white justify-center">
-                                <img src="assets/image/morgana.jpg" className="image absolute bottom-[40px] align-baseline z-1" />
-                                <div className="z-5 align-baseline absolute right-0 bottom-0 left-0 bg-white">
-                                    <div className="flex flex-col w-full h-fit py-5 px-2 border-t-2 border-accent text-center content-center z-10 break-words">
-                                        <span className="item-title font-bold">{blogs_to_render[blogs_to_render.length - 5].title}</span>
-                                        {/* <span className="">
-                                            {blogs_to_render[blogs_to_render.length - 5].tags.map((tag, index) => (
-                                                <span className="w-fit h-fit py-[2px] px-[1px] text-[17px] font-medium">{tag}</span>
-                                            ))}
-                                        </span> */}
+                            <Link href={{ pathname: "/blog/view", query: blogs_to_render[blogs_to_render.length - 5].$oid }} as={`blog/view?id=${blogs_to_render[blogs_to_render.length - 5]._id.$oid}`} className="place-self-end">
+                                <div className="btn-content cp-item item-normal flex flex-col z-1 bg-white justify-center">
+                                    <img src="assets/image/morgana.jpg" className="image absolute bottom-[40px] align-baseline z-1" />
+                                    <div className="z-5 align-baseline absolute right-0 bottom-0 left-0 bg-white">
+                                        <div className="flex flex-col w-full h-fit py-5 px-2 border-t-2 border-accent text-center content-center z-10 break-words">
+                                            <span className="item-title font-bold">{blogs_to_render[blogs_to_render.length - 5].title}</span>
+                                        </div>
+                                        <div className="blog-title view-btn w-full text-center content-center z-3">explore</div>
                                     </div>
-                                    <div className="blog-title view-btn w-full text-center content-center z-3">explore</div>
                                 </div>
-                            </div>
+                            </Link>
                         </div>
                     </div>
                 </div>
                 {render_blogs(blogs_to_render)}
-            </div>
+            </div >
         )
     }
 
