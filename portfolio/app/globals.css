@@ -41,6 +41,7 @@
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
+  --color-transition-bg: var(--transition-bg);
   --color-card: var(--card);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -95,6 +96,7 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
+  --transition-bg: oklch(88.8%, 15.25%, 5.752%);
 }
 
 .dark {
@@ -161,7 +163,7 @@
     -webkit-text-stroke: 1px #ff5ea0;
   }
 
-  
+
   ::-webkit-scrollbar {
     width: 0px;
     background: transparent;
@@ -219,6 +221,7 @@
   .cp-panel {
     clip-path: polygon(98% 0, 100% 16%, 100% 100%, 2% 100%, 0% 84%, 0 0);
   }
+
   .btn:hover .panel-title {
     text-shadow: 0 4px 4px var(--accent);
   }
@@ -249,6 +252,14 @@
 
   .markdown>* {
     all: revert;
+  }
+
+  table,
+  tr,
+  td,
+  th {
+    border: 1px solid var(--primary);
+    padding: 0 3rem;
   }
 
   .item {
@@ -504,4 +515,12 @@
     transition: .2s;
   }
 
+  body,
+  .header {
+    background-color: var(--background);
+    background-image:
+      radial-gradient(circle at 20% 20%, rgba(83, 158, 227, 0.15), transparent 60%),
+      radial-gradient(circle at 80% 80%, rgba(226, 110, 255, 0.2), transparent 60%);
+    background-attachment: fixed;
+  }
 }

@@ -4,28 +4,29 @@ import { AnimatePresence, motion } from "framer-motion"
 import { usePathname } from "next/navigation"
 
 import Stairs from "./stairs";
+import Door from "./door";
 
 const StairTransition = () => {
     const path_name = usePathname();
     return (
         <>
-            <AnimatePresence mode="wait">
+            <AnimatePresence mode="wait" className="h-screen w-screen absolute">
                 <div key={path_name}>
-                    <div className="h-screen w-screen fixed top-0 left-0 right-0 pointer-events-none z-40 flex">
-                        <Stairs />
-                    </div>
-                    <motion.div
-                        className="h-screen w-screen fixed bg-primary top-0 pointer-events-none"
-                        initial={{ opacity: 1 }}
+                    {/* <motion.div
+                        className="h-screen w-screen fixed bg-transition-bg top-0 pointer-events-none"
+                        initial={{ opacity: 0 }}
                         animate={{
-                            opacity: 0,
+                            opacity: 1,
                             transition: {
-                                delay: 0.4,
                                 duration: 0.4,
                                 easy: "easeInOut"
                             }
                         }}
-                    />
+                    /> */}
+                    <div className="h-screen w-screen fixed top-0 left-0 right-0 pointer-events-none z-40 flex">
+                        <Door />
+                    </div>
+
                 </div>
             </AnimatePresence>
         </>

@@ -40,7 +40,7 @@ const BlogAdd = () => {
             <div className="container py-[40px] w-full px-[50px] m-auto min-h-[700px] flex">
                 <div className="flex w-full px-[10px]">
                     <div className="btn cp-add bg-accent text-accent w-full min-h-[700px] flex">
-                        <div className="btn_content bg-white cp-add flex flex-col justify-start px-[10px] py-[20px] transition-all gap-4">
+                        <div className="btn-content bg-white cp-add flex flex-col justify-start px-[10px] py-[20px] transition-all gap-4">
                             <Input className="w-fit self-center text-2xl px-10 py-5 text-center focus:shadow-accent-hover focus:shadow-md transition-all"
                                 type="text"
                                 placeholder="Blog Title"

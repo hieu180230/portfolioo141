@@ -39,6 +39,7 @@ const Blog = () => {
         }
         catch (error) {
             console.log(error);
+            return "Invalid Date";
         }
     }
 
@@ -77,7 +78,7 @@ const Blog = () => {
                                 className="btn cp-panel bg-accent hover:bg-destructive-foreground flex text-primary font-bold text-xl h-full w-full">
                                 <Link href={{ pathname: "/blog/view", query: blog.$oid }} as={`blog/view?id=${blog._id.$oid}`} className="place-self-end">
                                     <div className="btn-content bg-white cp-panel items-center flex flex-col">
-                                        <div className="py-2 px-2 text-center w-full panel-title">
+                                        <div className="py-2 px-2 text-center w-full">
                                             {`${blog.title}`}
                                         </div>
                                         <div className="flex flex-row overflow-scroll overflow-y-hidden h-fit w-full px-2 justify-center">
@@ -90,7 +91,7 @@ const Blog = () => {
                                             ))}
                                         </div>
                                         <div className="py-2 px-2 text-sm w-fit h-fit absolute right-2 bottom-0">
-                                            {`${blog.author}`} - {`${blog.created_at}`}
+                                            {`${blog.author}`} - {`${from_date(blog.created_at)}`}
                                         </div>
                                     </div>
                                 </Link>

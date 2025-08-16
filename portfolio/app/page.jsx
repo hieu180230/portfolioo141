@@ -30,9 +30,9 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="order-1 xl:order-none mb-8 xl:mb-0 w-auto">
+          {/* <div className="order-1 xl:order-none mb-8 xl:mb-0 w-auto">
             <Loading/>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>
