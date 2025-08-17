@@ -46,3 +46,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
     - The `container-name` can be retrieved from the deployment file.
     - The new image's tag must be different from the old image's tag, otherwise, this will not work dynamically.
     - We can replace the `-f deployment-yaml-file` part with the `deployment/deployment-name` which is displayed when running `kubectl get deployments`
+
