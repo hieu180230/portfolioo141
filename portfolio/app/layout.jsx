@@ -7,6 +7,7 @@ import StairTransition from "@/components/stair_transition";
 import { Suspense } from "react";
 import Loading from "./loading";
 import Door from "@/components/door"
+import Reveal from "@/components/reveal";
 
 const cinzel = Cinzel({
   variable: "--font-cinzel",
@@ -23,20 +24,17 @@ export const metadata = {
 export default function RootLayout({ children }) {
   new Promise(resolve => setTimeout(resolve, 3000));
   return (
-    <html lang="en" className="h-full w-full">
-      <StairTransition />
+    <html lang="en" className="h-full w-full relative">
+      <Reveal>
         <body
-          className={`${cinzel.className} font-mono antialiased h-full w-full self-center overflow-y-scroll flex flex-col relative z-1`}
+          className={`${cinzel.className} font-mono antialiased h-screen w-screen self-center overflow-y-scroll flex flex-col relative z-1`}
         >
           <Header className="" />
-
-          {/* <PageTransition>{children}</PageTransition> */}
           <Suspense fallback={<Loading />}>
-            {/* {children} */}
             {children}
           </Suspense>
         </body>
-
+      </Reveal>
     </html>
   );
 }

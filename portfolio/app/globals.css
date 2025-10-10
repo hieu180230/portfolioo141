@@ -515,12 +515,19 @@
     transition: .2s;
   }
 
-  body,
-  .header {
+  body{
     background-color: var(--background);
     background-image:
       radial-gradient(circle at 20% 20%, rgba(83, 158, 227, 0.15), transparent 60%),
       radial-gradient(circle at 80% 80%, rgba(226, 110, 255, 0.2), transparent 60%);
+    background-attachment: fixed;
+  }
+
+  .background {
+    background-color: var(--background);
+    background-image:
+      radial-gradient(circle at 20% 20%, rgba(83, 158, 227, 0.5), transparent 60%),
+      radial-gradient(circle at 80% 80%, rgba(226, 110, 255, 0.5), transparent 60%);
     background-attachment: fixed;
   }
 }
