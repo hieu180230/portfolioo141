@@ -10,9 +10,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Set current date as variable
+      run: |
+        DATE=$(date +'%Y-%m-%d')  # Format: YYYY-MM-DD
+        echo "CURRENT_DATE=$DATE" >> $GITHUB_ENV
+        
     - name: checkout
       uses: actions/checkout@v4
+      
     - name: buid image
-      run: docker build ./portfolio/ -t hieu18022004/portfolioo141:$(date +%s)
+      run: docker build ./portfolio/ -t hieu18022004/portfolioo141:$CURRENT_DATE
+      
     - name: push to docker hub
-      run: docker push hieu18022004/portfolioo141:$(date +%s)
+      run: docker push hieu18022004/portfolioo141:$CURRENT_DATE
+      
