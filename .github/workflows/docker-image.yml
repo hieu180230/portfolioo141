@@ -13,6 +13,6 @@ jobs:
     - name: checkout
       uses: actions/checkout@v4
     - name: buid image
-      run: docker build ./portfolio/ --t hieu18022004/portfolioo141:$(date +%s)
+      run: docker build ./portfolio/ -t hieu18022004/portfolioo141:$(date +%s)
     - name: push to docker hub
       run: docker push hieu18022004/portfolioo141:$(date +%s)
