@@ -22,5 +22,7 @@ jobs:
       run: docker build ./portfolio/ -t hieu18022004/portfolioo141:$CURRENT_DATE
       
     - name: push to docker hub
-      run: docker push hieu18022004/portfolioo141:$CURRENT_DATE
+      run: |
+        docker login -u hieu18022004 -p ${{secrets.DOCKER_HUB}}
+        docker push hieu18022004/portfolioo141:$CURRENT_DATE
       
