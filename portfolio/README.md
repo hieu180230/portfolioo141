@@ -37,14 +37,20 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ## For DevOps with Docker and Kubernetes
 
-- Firstly, build the docker image.
+- Firstly, pull the repo from github
+```
+git clone https://github.com/hieu180230/portfolioo141.git
+```
+
+- Next, build the docker image.
     - Optionally, run `docker build .` and `docker tag old-image-name new-image-name` if you want to run the images comfortably in local with a short name before tag the image with the dockerhub username.
 ```
 docker build -t docker-username/image-name .
+docker build -t hieu18022004/portfolioo141:v6 .
 ```
 - Next, we push the image to the docker hub. Leave the tag part empty for for the `latest` tag.
 ```
-docker push docker-username/image-name:tag
+docker push hieu18022004/portfolioo141:v6
 ```
 - For kubernetes, create the kubectl service. This service only need to create once. For later changes, only deployment need to be reapplied.
 - Then, create the kubernetes deployment for the docker image above. Remember to change the version of the deployment in the yaml file.
