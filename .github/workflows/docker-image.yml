@@ -29,6 +29,10 @@ jobs:
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
+      
+    - name: login to docker hub
+      run: |
+        docker login -u hieu18022004 -p ${{secrets.DOCKER_HUB}}
 
     - name: Build and Push to Docker Hub
       uses: docker/build-push-action@v5
