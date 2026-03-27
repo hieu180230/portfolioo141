@@ -16,6 +16,27 @@ spec:
     spec:
       containers:
         - name: portfolioo141
-          image: hieu18022004/portfolioo141:v3
+          image: hieu18022004/portfolioo141:v5
           ports:
             - containerPort: 3000
+          #resources restriction
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
+            limits:
+              memory: "128Mi"
+              cpu: "100m"
+          #health check
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 15
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 20
+            periodSeconds: 10

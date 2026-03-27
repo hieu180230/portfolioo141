@@ -37,13 +37,32 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ## For DevOps with Docker and Kubernetes
 
-- Firstly, run `docker build -t docker-username/image-name .` to build the image.
+- Firstly, build the docker image.
     - Optionally, run `docker build .` and `docker tag old-image-name new-image-name` if you want to run the images comfortably in local with a short name before tag the image with the dockerhub username.
-- Next, we push the image to the docker hub `docker push docker-username/image-name:tag`. Leave the tag part empty for for the `latest` tag.
-- For kubernetes, use `kubectl create -f service-yaml-file` or `kubectl apply -f service-yaml-file` to create the service. This service only need to create one. For later changes, only deployment need to be reapplied.
-- Then, use `kubectl create -f deployment-yaml-file` or `kubectl apply -f deployment-yaml-file` if the deployment already exist.
+```
+docker build -t docker-username/image-name .
+```
+- Next, we push the image to the docker hub. Leave the tag part empty for for the `latest` tag.
+```
+docker push docker-username/image-name:tag
+```
+- For kubernetes, create the kubectl service. This service only need to create once. For later changes, only deployment need to be reapplied.
+- Then, create the kubernetes deployment for the docker image above. Remember to change the version of the deployment in the yaml file.
+- Finally, create the ingress service for nginx to tunnel the port to a dns domain.
+```
+minikube start
+kubectl apply -f service.yaml
+kubectl apply -f deployment.yaml
+kubectl apply -f ingress.yaml
+```
 - After we built a new docker image, we need to set the deployment to the new image by using `kubectl set image -f deployment-yaml-file container-name:new-image-name:tag`
     - The `container-name` can be retrieved from the deployment file.
     - The new image's tag must be different from the old image's tag, otherwise, this will not work dynamically.
     - We can replace the `-f deployment-yaml-file` part with the `deployment/deployment-name` which is displayed when running `kubectl get deployments`
+- Check deployment and service using `kubectl get pods` and `kubectl get svc p-service`
+```
+kubectl get pods
+kubectl get svc p-service
+kubectl get ingress
+```
 

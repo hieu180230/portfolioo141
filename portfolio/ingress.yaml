@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: portfolio-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    # Optional but good: strips out trailing slashes
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: nnhieu.duckdns.org
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: p-service
+            port:
+              number: 80
