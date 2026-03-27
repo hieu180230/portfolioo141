@@ -1,13 +1,13 @@
 name: Docker Image CI
 permissions:
   contents: read
-  pull-requests: write
+  
 on:
   push:
     branches: 
       - main
     paths:
-      - 'portfolio/Dockerfile'
+      - 'portfolio/**'
 
 jobs:
 
@@ -17,17 +17,25 @@ jobs:
     steps:
     - name: Set current date as variable
       run: |
-        DATE=$(date +'%Y-%m-%d')  # Format: YYYY-MM-DD
-        echo "CURRENT_DATE=$DATE" >> $GITHUB_ENV
+        DATE=$(date +'%Y-%m-%d')
+        SHORT_SHA=$(echo ${{ github.sha }} | cut -c1-7)
+        echo "IMAGE_TAG=$DATE-$SHORT_SHA" >> $GITHUB_ENV
         
     - name: checkout
       uses: actions/checkout@v4
-      
-    - name: buid image
-      run: docker build ./portfolio/ -t hieu18022004/portfolioo141:$CURRENT_DATE
-      
-    - name: push to docker hub
-      run: |
-        docker login -u hieu18022004 -p ${{secrets.DOCKER_HUB}}
-        docker push hieu18022004/portfolioo141:$CURRENT_DATE
+    
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build and Push to Docker Hub
+      uses: docker/build-push-action@v5
+      with:
+        context: ./portfolio/
+        file: ./portfolio/Dockerfile
+        platforms: linux/arm64 # The exact architecture your cloud needs
+        push: true
+        tags: hieu18022004/portfolioo141:${{ env.IMAGE_TAG }}
       
