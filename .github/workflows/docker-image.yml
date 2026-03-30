@@ -10,9 +10,10 @@ on:
       - 'portfolio/**'
 
 jobs:
-
   publish_images:
     runs-on: ubuntu-latest
+    outputs:
+      image_tag: ${{ steps.tag_generator.outputs.IMAGE_TAG }}
 
     steps:
     - name: Set current date as variable
@@ -42,4 +43,14 @@ jobs:
         platforms: linux/arm64 # The exact architecture your cloud needs
         push: true
         tags: hieu18022004/portfolioo141:${{ env.IMAGE_TAG }}
-      
+    
+    - name: Write Docker Image tag to file
+      run: |
+        mkdir -p ./image_tag
+        echo ${{ env.IMAGE_TAG }} > ./image_tag/tag
+        
+    - name: Upload Docker Image tag to Artifact
+      uses: actions/upload-artifact@v3.2.2
+      with:
+        name: tag
+        path: image_tag/

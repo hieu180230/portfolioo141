@@ -3,13 +3,13 @@ import {FaGithub, FaLinkedin, FaMailBulk} from "react-icons/fa"
 
 const socials = [
     {
-        icon: <FaGithub/>, path: "",
+        icon: <FaGithub/>, path: "https://github.com/hieu180230",
     },
     {
-        icon: <FaLinkedin/>, path: "",
+        icon: <FaLinkedin/>, path: "https://www.linkedin.com/in/nnhieu/",
     },
     {
-        icon: <FaMailBulk/>, path: "",
+        icon: <FaMailBulk/>, path: "mailto:hieu180230@gmail.com",
     },
 ]
 
