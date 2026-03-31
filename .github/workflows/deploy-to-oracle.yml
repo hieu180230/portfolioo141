@@ -47,8 +47,8 @@ jobs:
           key: ${{ secrets.ORACLE_SSH_KEY }}
           envs: IMAGE_TAG
           script: |
-            echo "Initiating deployment for hieu18022004/portfolioo141:$IMAGE_TAG"
-            docker pull hieu18022004/portfolioo141:$IMAGE_TAG
+            echo "Initiating deployment for hieu18022004/portfolioo141:${{IMAGE_TAG}}"
+            docker pull hieu18022004/portfolioo141:${{IMAGE_TAG}}
             kubectl set image deployment/p-deployment portfolioo141=hieu18022004/portfolioo141:$IMAGE_TAG
 
           
