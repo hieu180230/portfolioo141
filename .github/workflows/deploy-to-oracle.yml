@@ -49,6 +49,6 @@ jobs:
           script: |
             echo "Initiating deployment for hieu18022004/portfolioo141:$IMAGE_TAG"
             kubectl set image deployment/p-deployment portfolioo141=hieu18022004/portfolioo141:$IMAGE_TAG
-            kubectl rollout status deployment/p-deployment
+
           
   
