@@ -71,5 +71,5 @@ kubectl get pods
 kubectl get svc p-service
 kubectl get ingress
 ```
-pipeline
+
 
