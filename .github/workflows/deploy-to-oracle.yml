@@ -33,7 +33,7 @@ jobs:
           fi
           EOF=$(cat /proc/sys/kernel/random/uuid)
           echo "IMAGE_TAG<<$EOF" >> $GITHUB_ENV
-          echo "$THE_TAG" >> $GITHUB_ENV
+          echo "$TAG" >> $GITHUB_ENV
           echo "$EOF" >> $GITHUB_ENV
           echo "Securely loaded tag for deployment."
 
@@ -47,8 +47,8 @@ jobs:
           key: ${{ secrets.ORACLE_SSH_KEY }}
           envs: IMAGE_TAG
           script: |
-            echo "Initiating deployment for hieu18022004/portfolioo141:${{IMAGE_TAG}}"
-            docker pull hieu18022004/portfolioo141:${{IMAGE_TAG}}
+            echo "Initiating deployment for hieu18022004/portfolioo141:$IMAGE_TAG"
+            docker pull hieu18022004/portfolioo141:$IMAGE_TAG
             kubectl set image deployment/p-deployment portfolioo141=hieu18022004/portfolioo141:$IMAGE_TAG
 
           
