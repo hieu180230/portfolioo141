@@ -13,7 +13,7 @@ const Home = () => {
           <div className="text-center xl:text-left order-2 xl:order-none">
             <span className="text-xl">TITLE</span>
             <h1 className="h1">
-              Hello I'm<br /> <span className="text-accent">Name name</span>
+              Hello I'm<br /> <span className="text-accent">Nguyen Nhat Hieu</span>
             </h1>
             <p className="max-w-[500px] mb-9 text-primary">
               Sun Minus used Explosion! Critical damage! x2 damage!
