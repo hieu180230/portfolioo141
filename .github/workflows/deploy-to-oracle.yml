@@ -27,8 +27,15 @@ jobs:
         id: read_tag
         run: |
           TAG=$(cat image_tag/tag)
-          echo "IMAGE_TAG=$TAG" >> $GITHUB_ENV
-          echo "Downloaded tag: $TAG"
+          if [[ ! "$TAG" =~ ^[a-zA-Z0-9.-]+$ ]]; then
+            echo "CRITICAL SECURITY ERROR: Invalid tag format. Possible injection detected."
+            exit 1
+          fi
+          EOF=$(cat /proc/sys/kernel/random/uuid)
+          echo "IMAGE_TAG<<$EOF" >> $GITHUB_ENV
+          echo "$THE_TAG" >> $GITHUB_ENV
+          echo "$EOF" >> $GITHUB_ENV
+          echo "Securely loaded tag for deployment."
 
       - name: Deploy to Oracle Cloud
         uses: appleboy/ssh-action@v1.0.3
