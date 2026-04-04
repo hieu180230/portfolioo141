@@ -37,19 +37,24 @@ jobs:
           echo "$EOF" >> $GITHUB_ENV
           echo "Securely loaded tag for deployment."
 
-      - name: Deploy to Oracle Cloud
-        uses: appleboy/ssh-action@v1.0.3
-        env:
-          IMAGE_TAG: ${{ env.IMAGE_TAG }}
+      - name: Checkout Manifest Repository Securely
+        uses: actions/checkout@v4
         with:
-          host: ${{ secrets.ORACLE_HOST }}
-          username: ${{ secrets.ORACLE_USERNAME }}
-          key: ${{ secrets.ORACLE_SSH_KEY }}
-          envs: IMAGE_TAG
-          script: |
-            echo "Initiating deployment for hieu18022004/portfolioo141:$IMAGE_TAG"
-            docker pull hieu18022004/portfolioo141:$IMAGE_TAG
-            kubectl set image deployment/p-deployment portfolioo141=hieu18022004/portfolioo141:$IMAGE_TAG
+          repository: hieu180230/portfolioo141-k8s
+          ssh-key: ${{ secrets.AGRO }}
+          path: .
+
+      - name: Update Image Tag and Push
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+          sed -i "s|image: hieu18022004/portfolioo141:.*|image: hieu18022004/portfolioo141:${{ env.IMAGE_TAG }}|g" deployment.yaml
+
+          git add deployment.yaml
+          git commit -m "chore: update image tag to ${{ env.IMAGE_TAG }} via CI"
+          git push origin main
+          
+          echo "Securely pushed new tag to GitOps repository."
 
           
   
