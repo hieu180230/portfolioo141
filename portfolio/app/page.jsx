@@ -1,4 +1,4 @@
-"use server"
+"use client"
 
 import { Button } from "@/components/ui/button"
 import { FiDownload } from "react-icons/fi"
@@ -19,7 +19,10 @@ const Home = () => {
               Sun Minus used Depressive Coding! Critical hit!
             </p>
             <div className="flex flex-col xl:flex-row items-center gap-8">
-              <Button variant="outline" size="lg" className="uppercase flex items-center gap-2">
+              <Button variant="outline" size="lg" className="uppercase flex items-center gap-2" onClick={ () => {
+                alert("oh shitttt");
+                window.open("https://google.com");
+              } }>
                 <span>CV Download</span>
                 <FiDownload className="text-xl" />
               </Button>
