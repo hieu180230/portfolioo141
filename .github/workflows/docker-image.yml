@@ -4,8 +4,11 @@ permissions:
   
 on:
   push:
-    branches: 
-      - main
+    branches: [ "main", "dev" ]
+    paths:
+      - 'portfolio/**'
+  pull_request:
+    branches: [ "main" ]
     paths:
       - 'portfolio/**'
 
