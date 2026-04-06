@@ -4,15 +4,14 @@ import { Button } from "./ui/button"
 //component
 import Nav from "./nav"
 import MobileNav from "./mobile_nav"
+import Photo from "@/components/photo";
 
 const Header = () => {
     return (
         <header className="py-8 xl:py-12 text-primary header">
             <div className="container mx-auto flex justify-between items-center">
-                <Link href="/">
-                    <h1 className="text-4xl font-semibold">
-                        Sun <span className="text-accent">.</span>
-                    </h1>
+                <Link href="/" className="w-full relative h-full justify-center items-center">
+                    <Photo/>
                 </Link>
 
                 {/* desktop nav*/}
