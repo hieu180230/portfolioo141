@@ -5,6 +5,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import Panel from './panel';
+import Image from "next/image";
 
 const Carousel = ({ data }) => {
 
@@ -12,7 +13,7 @@ const Carousel = ({ data }) => {
     <Swiper
       modules={[Navigation, Pagination, Scrollbar, A11y]}
       initialSlide={2}
-      centeredSlides={true}
+      centeredSlides
       spaceBetween={50}
       slidesPerView={2}
       navigation={{
@@ -24,7 +25,7 @@ const Carousel = ({ data }) => {
     >
       {data.map((p_project, index) => (
         <SwiperSlide key={index}>
-          <img src={p_project.img_url} className="relative z-10" loading="lazy" />
+          <Image src={p_project.img_url} alt="" className="relative z-10" loading="lazy" />
           <Panel panel_style="swiper-panel">
             <h1>{p_project.title}</h1>
             <p>{p_project.description}</p>

@@ -1,12 +1,8 @@
-name: Docker Image CI
+name: Docker Bridge
 permissions:
   contents: read
   
 on:
-  push:
-    branches: [ "main", "dev" ]
-    paths:
-      - 'portfolio/**'
   pull_request:
     branches: [ "main" ]
     paths:

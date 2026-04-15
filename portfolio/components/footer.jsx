@@ -26,11 +26,11 @@ const Footer = () => {
             >
               hieu180230@gmail.com
             </a>
-            <a
+            <p
               className="text-sm text-accent-alt/80 hover:text-white transition-colors duration-300 lowercase font-mono"
             >
               +84 359 772 230
-            </a>
+            </p>
           </div>
 
           {/* Socials */}

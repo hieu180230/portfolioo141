@@ -1,0 +1,56 @@
+name: Frontend Integration
+
+on:
+  push:
+    branches: [ "dev" ]
+    paths:
+      - 'portfolio/**'
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - 'portfolio/**'
+
+jobs:
+  security_scan:
+    name: TruffleHog Secret Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: TruffleHog OSS
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: ${{ github.event.repository.default_branch }}
+          head: HEAD
+          extra_args: --debug --only-verified
+  
+  frontend_ci:
+    name: Next.js CI
+    runs-on: ubuntu-latest
+    needs: [security_scan]
+    defaults:
+      run:
+        working-directory: ./portfolio
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: ./portfolio/package-lock.json
+      
+      - name: Install Deps
+        run: npm ci
+      
+      - name: Run ESLInt
+        run: npm run lint
+
+      - name: Test Next.js Build
+        run: npm run build

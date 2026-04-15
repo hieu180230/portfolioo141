@@ -20,7 +20,7 @@ const Photo = () => {
             transition: { delay: 0.4, duration: 0.4, ease: "easeInOut" }
           }}
           className="flex relative h-[60px] w-[60px] justify-center items-center  ">
-          <Image src="/assets/image/main.jpg" priority quality={100} fill alt="" className="object-cover object-bottom rounded-full" />
+          <Image src="/assets/image/main.jpg" alt="" priority quality={100} fill className="object-cover object-bottom rounded-full" />
         </motion.div>
 
         {/* Frame circle

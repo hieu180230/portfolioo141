@@ -12,20 +12,23 @@ const Work = () => {
 
     const [projects, set_projects] = useState([]);
     const [count, set_count] = useState(0);
+    const [error, set_error] = useState(null);
 
     useEffect(() => {
-        fetch_projects();
-    }, [count]);
-
-    const fetch_projects = async () => {
+        const fetch_projects = async () => {
         try {
             const response = await axios.get("https://portfolioo-141.shuttle.app/project", {});
             set_projects(response.data);
+            set_error(null);
         } catch (err) {
-            console.log(err)
-        }
-    }
+            console.error("Failed to fetch projects:", err);
+            set_error("Failed to load projects. The backend might be burning.");
+            set_projects([]);
+        };
 
+        fetch_projects();
+    }
+    }, [count]);
 
 
     return (
