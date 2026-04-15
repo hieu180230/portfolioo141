@@ -392,8 +392,8 @@ const Blog = () => {
         <div className="btn cp-add-button bg-accent hover:bg-destructive-foreground text-accent hover:text-destructive-foreground transition-all font-bold text-xl h-[60px] w-[60px] place-self-end">
           <Link href="/blog/add">
             <span className="btn-content bg-white cp-add-button items-center justify-center">
-              <label htmlFor="">-</label>
-              <span className="py-10">+</span>
+              <label htmlFor="add">-</label>
+              <span id="add" className="py-10">+</span>
             </span>
           </Link>
         </div>
