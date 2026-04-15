@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from 'react'
-import { Input } from "@components/ui/input";
+import { Input } from "@/components/ui/input";
 import { format, formatDate } from "date-fns"
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
