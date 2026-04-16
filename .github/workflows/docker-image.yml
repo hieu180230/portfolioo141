@@ -2,7 +2,7 @@ name: Docker Bridge
 permissions:
   contents: read
   
-on:
+on:    
   push:
     branches: [ "main" ]
     paths:

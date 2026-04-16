@@ -5,7 +5,7 @@ permissions:
 
 on:
   workflow_run:
-    workflows: [Docker Image CI]
+    workflows: [Docker Bridge]
     types:
       - completed
 
