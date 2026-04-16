@@ -79,3 +79,5 @@ You don't learn DevSecOps by following a perfect tutorial. You learn it by accid
 * **The Kubernetes Grammar Crime:** I once spent hours debugging why my Let's Encrypt SSL certificate wouldn't generate. The culprit? I wrote `annotation:` instead of `annotations:` in my Ingress YAML. The Kubernetes API silently incinerated my command without warning. Lesson learned: Always use a YAML linter.
 * **The "Fake IP" Rate Limit Trap:** I tried to set up Traefik rate-limiting, but Kubernetes was masking all external IP addresses via SNAT (Source Network Address Translation). I almost permanently IP-banned my own cluster from communicating with itself. I had to hot-patch the Traefik LoadBalancer with `externalTrafficPolicy: Local` to expose the real client IPs.
 * **The DNS Dictatorship:** I attempted to put a Cloudflare WAF in front of a free `duckdns.org` domain. Cloudflare laughed and demanded Root Nameserver authority, which DuckDNS obviously doesn't grant. I learned that enterprise edge security requires owning an actual Apex domain.
+
+hjghjgghjg
