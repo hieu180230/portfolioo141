@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react'
 import { motion, useInView, useAnimation } from 'framer-motion'
+import Image from "next/image";
 
 const Reveal = ({ children }) => {
 
@@ -18,7 +19,7 @@ const Reveal = ({ children }) => {
             controller.start("visible");
             slide_controller.start("visible");
         }
-    }, [click]);
+    }, [click, controller, slide_controller]);
 
     return (
         <div ref={ref} className="relative w-full h-full overflow-hidden">
@@ -62,7 +63,7 @@ const Reveal = ({ children }) => {
                 animate={slide_controller}
                 transition={{ duration: 0.5, ease: "easeIn" }}
                 className="absolute top-0 bottom-0 left-0 right-0 background z-25">
-                    <img src="assets/image/constellation_emblem.svg"/>
+                    <Image src="assets/image/constellation_emblem.svg" alt="" />
                 </motion.div>
         </div>
     )

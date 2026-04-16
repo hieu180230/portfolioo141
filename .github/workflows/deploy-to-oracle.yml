@@ -50,9 +50,8 @@ jobs:
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
 
-          sed -i "s|image: hieu18022004/portfolioo141:.*|image: hieu18022004/portfolioo141:${{ env.IMAGE_TAG }}|g" deployment.yaml
-
-          git add deployment.yaml
+          yq e '(.spec.source.helm.parameters[] | select(.name == "frontend.tag")).value = "${{ env.IMAGE_TAG }}"' -i application.yaml
+          git add application.yaml
           git commit -m "chore: update image tag to ${{ env.IMAGE_TAG }} via CI"
           git push origin main
           

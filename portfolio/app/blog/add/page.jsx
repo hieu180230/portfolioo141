@@ -6,8 +6,6 @@ import { format, formatDate } from "date-fns"
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 
-import { Redirect } from "react-router-dom"
-import Blog from '../page';
 
 
 

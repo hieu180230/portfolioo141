@@ -1,8 +1,13 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Portfolio: A DevSecOps and GitOps Laboratory (Improving)
+> This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+> This repository is a living, breathing laboratory for **DevSecOps**, **Continuous Integration**, and **GitOps**. It is built for developers who are tired of applications that "only work on my machine" and want to understand how software is securely and predictably delivered to a production Kubernetes cluster.
+
+> If you are still manually *SSHing* into servers or blindly pushing ``latest`` tags to Docker Hub, grab a coffee. We have some infrastructure to build.
 
 ## Getting Started
 
-First, run the development server:
+First, run the development server depend on which package manager you are using:
 
 ```bash
 npm run dev
@@ -16,60 +21,61 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Infrastructure & CI/CD Pipeline
+The deployment lifecycle is fully automated, enforcing security and stability through rigorous CI checks before any code reaches the Kubernetes cluster.
+### CI - Testing locally, Integrating and Automation
+- The CI pipeline is orchestrated via GitHub Actions and is strictly enforced on pull requests. Code cannot be merged into `main` unless it passes the following automated gates:
+    - **Frontend Validation:** Enforces strict linting rules using ESLint, targeting:
+        - [`next/core-web-vitals`](https://nextjs.org/learn/seo/web-performance):  Prevents performance regressions.
+        - [`react-a11y`](https://www.npmjs.com/package/eslint-plugin-jsx-a11y): Enforces strict accessibility standards on all JSX elements.
+        - [`react-hooks`](https://www.npmjs.com/package/eslint-plugin-react-hooks): Prevents memory leaks and lifecycle bugs.
+    - **Backend Validation:** Enforces memory safety and logic integrity using `cargo test` and `cargo clippy` (Strict Mode) for the Rust API. *(Note: Backend pipeline integration is currently under active development).*
+    - **GitOps Workflow:** `dev` branches run continuous checks on every push. The `main` branch acts as a protected environment, requiring approved PRs and passing status checks before merging.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### CD - Continuous Delivery
+- Once the code proves it is worthy of production, we package it using **Docker**
+- This is the step where I build the Docker image with a proper tag and push this to Docker Hub. **The tag should not be `latest`**. This bold notice will come in handy later.
+- Upon a successful merge to `main`, the deployment artifact is generated:
+    ```
+    docker build
+    docker tag
+    docker push
+    ```
+    - Check the [docker document](https://docs.docker.com/) for more uses.
+    - The image is tagged using a dynamically generated, immutable UUID/Commit Hash. **The `latest` tag is strictly prohibited** to ensure deterministic rollbacks.
+    - The image is then pushed to Docker Hub, and the new tag is extracted for the GitOps workflow.
 
-## Learn More
+### CD - Continuous Deployment (GitOps & Kubernetes)
+- The production environment operates on a K3s (Kubernetes) cluster, completely decoupled from the application source code.
 
-To learn more about Next.js, take a look at the following resources:
+<blockquote>
+    All Kubernetes manifests are stored in a separate, isolated Git repository. <br> This separation of concerns prevents CI/CD infinite loops (where updating a deployment tag triggers another Docker build) and strictly controls who has access to the cloud infrastructure.
+</blockquote>
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Then, I check the tag for any inappropriate changes, and using git remote and sed to replace the image tag in the deployment manifest in the `manifest repo`:
+    - With ArgoCD: 
+        - ArgoCD continuously monitors the manifest repository. When the CI pipeline automatically updates the image tag in the manifest repo via `sed`, ArgoCD detects the configuration drift and immediately synchronizes the Kubernetes cluster to match the desired state.
+    - Without ArgoCD:
+        - Without ArgoCD to do the hard work, we will have to `ssh` into the virtual machine, pull the image from docker hub, manually run the script of 
+        ```bash
+        kubectl set image ...
+        #or
+        kubectl apply -f ...
+        ```
+        to apply the changes. 
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Toolchains
+I have documented the brutal lessons learned and the engineering philosophy behind every tool in this stack. Click below to read the technical deep dives:
 
-## Deploy on Vercel
+* [ArgoCD: The Robotic Reconciler](./docs/argocd.md)
+* [Docker: The Immutable Box](./docs/docker.md)
+* [GitHub Actions: The Ruthless Bouncer](./docs/github-actions.md)
+* [Kubernetes & Traefik: The Cloud Fortress](./docs/kubernetes.md)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Difficulties Encountered
+You don't learn DevSecOps by following a perfect tutorial. You learn it by accidentally burning your server down. Here are the scars I earned building this:
 
-## For DevOps with Docker and Kubernetes
-
-- Firstly, pull the repo from github
-```
-git clone https://github.com/hieu180230/portfolioo141.git
-```
-
-- Next, build the docker image.
-    - Optionally, run `docker build .` and `docker tag old-image-name new-image-name` if you want to run the images comfortably in local with a short name before tag the image with the dockerhub username.
-```
-docker build -t docker-username/image-name .
-docker build -t hieu18022004/portfolioo141:v6 .
-```
-- Next, we push the image to the docker hub. Leave the tag part empty for for the `latest` tag.
-```
-docker push hieu18022004/portfolioo141:v6
-```
-- For kubernetes, create the kubectl service. This service only need to create once. For later changes, only deployment need to be reapplied.
-- Then, create the kubernetes deployment for the docker image above. Remember to change the version of the deployment in the yaml file.
-- Finally, create the ingress service for nginx to tunnel the port to a dns domain.
-```
-minikube start
-kubectl apply -f service.yaml
-kubectl apply -f deployment.yaml
-kubectl apply -f ingress.yaml
-```
-- After we built a new docker image, we need to set the deployment to the new image by using `kubectl set image -f deployment-yaml-file container-name=new-image-name:tag`
-    - The `container-name` can be retrieved from the deployment file.
-    - The new image's tag must be different from the old image's tag, otherwise, this will not work dynamically.
-    - We can replace the `-f deployment-yaml-file` part with the `deployment/deployment-name` which is displayed when running `kubectl get deployments`
-- Check deployment and service using `kubectl get pods` and `kubectl get svc p-service`
-```
-kubectl get pods
-kubectl get svc p-service
-kubectl get ingress
-```
-
-pipeline
+* **The Kubernetes Grammar Crime:** I once spent hours debugging why my Let's Encrypt SSL certificate wouldn't generate. The culprit? I wrote `annotation:` instead of `annotations:` in my Ingress YAML. The Kubernetes API silently incinerated my command without warning. Lesson learned: Always use a YAML linter.
+* **The "Fake IP" Rate Limit Trap:** I tried to set up Traefik rate-limiting, but Kubernetes was masking all external IP addresses via SNAT (Source Network Address Translation). I almost permanently IP-banned my own cluster from communicating with itself. I had to hot-patch the Traefik LoadBalancer with `externalTrafficPolicy: Local` to expose the real client IPs.
+* **The DNS Dictatorship:** I attempted to put a Cloudflare WAF in front of a free `duckdns.org` domain. Cloudflare laughed and demanded Root Nameserver authority, which DuckDNS obviously doesn't grant. I learned that enterprise edge security requires owning an actual Apex domain.
