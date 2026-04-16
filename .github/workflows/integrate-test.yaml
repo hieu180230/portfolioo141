@@ -5,10 +5,12 @@ on:
     branches: [ "dev" ]
     paths:
       - 'portfolio/**'
+      - '.github/workflows/**'
   pull_request:
     branches: [ "main" ]
     paths:
       - 'portfolio/**'
+      - '.github/workflows/**'
 
 jobs:
   security_scan:
