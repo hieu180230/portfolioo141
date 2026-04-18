@@ -2,7 +2,6 @@
 FROM rust:1.92-slim-bookworm AS builder
 WORKDIR ./
 
-RUN cargo install cargo-chef --version ^0.1
 #Only copy the Cargo files and build dependencies first
 COPY Cargo.toml Cargo.lock ./
 
