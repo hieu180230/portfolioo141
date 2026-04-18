@@ -10,7 +10,7 @@ RUN mkdir src && echo "fn main() {}" > src/main.rs && touch src/libs.rs && cargo
 #Copy the source code and build the app
 COPY src ./src
 #touch the file to make sure the build will run without taking from cache (Rust only)
-RUN touch src/main.rs && cargo build --release
+RUN touch src/main.rs && touch src/libs.rs && cargo build --release
 
 # Runtime environment
 FROM debian:bookworm-slim AS runtime
