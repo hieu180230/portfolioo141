@@ -1,15 +1,17 @@
-name: Frontend Integration
+name: Application Integration
 
 on:
   push:
     branches: [ "dev" ]
     paths:
       - 'portfolio/**'
+      - 'portfolio-be/**'
       - '.github/workflows/**'
   pull_request:
     branches: [ "main" ]
     paths:
       - 'portfolio/**'
+      - 'portfolio-be/**'
       - '.github/workflows/**'
 
 jobs:
@@ -60,3 +62,36 @@ jobs:
 
       - name: Test Next.js Build
         run: npm run build
+
+  backend_ci:
+    name: Rust API CI
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    needs: [security_scan]
+    defaults:
+      run:
+        working-directory: ./portfolio-be
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Rust Toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      
+      - name: Rust Cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: ./portfolio-be -> target
+        
+      - name: Check Formatting
+        run: cargo fmt -- --check
+
+      - name: Run Clippy Linter
+        run: cargo clippy
+
+      - name: Run Tests
+        run: cargo test
+    
