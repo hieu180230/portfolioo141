@@ -1,4 +1,4 @@
-name: Oracle Cloud CD
+name: GitOps Manifest Updater
 permissions:
   contents: read
   actions: read
@@ -51,9 +51,16 @@ jobs:
           git config user.email "actions@github.com"
 
           yq e '(.spec.source.helm.parameters[] | select(.name == "frontend.tag")).value = "${{ env.IMAGE_TAG }}"' -i application.yaml
-          git add application.yaml
-          git commit -m "chore: update image tag to ${{ env.IMAGE_TAG }} via CI"
-          git push origin main
+          yq e '(.spec.source.helm.parameters[] | select(.name == "backend.tag")).value = "${{ env.IMAGE_TAG }}"' -i application.yaml
+
+          if [ -n "$(git status --porcelain)" ]; then
+            git add application.yaml
+            git commit -m "chore: update application image tags to ${{ env.IMAGE_TAG }} via CI"
+            git push origin main
+            echo "Tag changed, manifest pushed!"
+          else
+            echo "Tag not changed!"
+          fi
           
           echo "Securely pushed new tag to GitOps repository."
 

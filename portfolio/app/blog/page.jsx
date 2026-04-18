@@ -1,37 +1,25 @@
-"use client";
-
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
 import { format, formatDate } from "date-fns";
 import Link from "next/link";
 import Loading from "../loading";
 import Image from "next/image";
 
-const Blog = () => {
-  const [blogs, set_blogs] = useState([]);
+async function get_blogs() {
+    try {
+    const res = await fetch("http://rust-api.portfolio-backend.svc.cluster.local:8000/blogs", {
+      cache: "force-cache", 
+      next: { tags: ['blogs'] } 
+    });
+    
+    if (!res.ok) throw new Error("Backend collapsed");
+    return res.json();
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
 
-  const [blog, set_blog] = useState();
-  const [count, set_count] = useState(0);
-
-  useEffect(() => {
-    const fetch_blogs = async () => {
-      try {
-        const response = await axios.get(
-          "https://portfolioo-141.shuttle.app/blog",
-          {},
-        );
-        set_blogs(response.data);
-        set_blog(response.data[0]);
-        set_count(response.data.length);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    fetch_blogs();
-  }, [count]);
-
-  const from_date = (date_string) => {
+const from_date = (date_string) => {
     try {
       const date = new Date(date_string);
       return isNaN(date.getTime())
@@ -41,7 +29,16 @@ const Blog = () => {
       console.error(error);
       return "Invalid Date";
     }
-  };
+};
+
+export default async function Blog() {
+  const blogs = await get_blogs();
+  console.log(blogs);
+  const latest_blogs = [...blogs].reverse().slice(0, 5);
+
+
+
+
 
   const render_blogs = (blogs_to_render) => {
     return (
@@ -382,7 +379,7 @@ const Blog = () => {
       {/* Body */}
       {/* {render_blogs(blogs)} */}
       {blogs.length > 0 ? (
-        render_latest(blogs)
+        render_latest(latest_blogs)
       ) : (
         <div>
           <Loading />
@@ -393,7 +390,9 @@ const Blog = () => {
           <Link href="/blog/add">
             <span className="btn-content bg-white cp-add-button items-center justify-center">
               <label htmlFor="add">-</label>
-              <span id="add" className="py-10">+</span>
+              <span id="add" className="py-10">
+                +
+              </span>
             </span>
           </Link>
         </div>
@@ -402,4 +401,3 @@ const Blog = () => {
   );
 };
 
-export default Blog;
