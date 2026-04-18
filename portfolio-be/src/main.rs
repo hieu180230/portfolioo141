@@ -1,4 +1,4 @@
-use actix_web::{web, App, HttpServer, HttpResponse};
+use actix_web::{web, App, HttpResponse, HttpServer};
 // use actix_cors::Cors;
 // use serde::{Serialize, Deserialize};
 // use std::sync::Mutex;
@@ -37,7 +37,10 @@ async fn main() -> std::io::Result<()> {
             .route("/blogs", web::get().to(get_blogs))
             .route("/blog", web::get().to(get_blog_by_id))
             .route("/projects", web::get().to(get_projects))
-            .route("/health", web::get().to(|| async { HttpResponse::Ok().body("Alive") }))
+            .route(
+                "/health",
+                web::get().to(|| async { HttpResponse::Ok().body("Alive") }),
+            )
     })
     .bind(&bind_address)
     .expect("failed")
