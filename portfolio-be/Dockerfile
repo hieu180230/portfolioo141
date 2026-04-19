@@ -24,5 +24,6 @@ RUN useradd -ms /bin/bash appuser
 USER appuser
 
 COPY --from=builder ./target/release/portfolio-be .
+COPY --from=builder ./env .
 EXPOSE 8000
 CMD ["./portfolio-be"]
