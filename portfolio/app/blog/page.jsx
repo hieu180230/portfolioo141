@@ -5,8 +5,9 @@ import Loading from "../loading";
 import Image from "next/image";
 
 async function get_blogs() {
+    const baseUrl = process.env.API_URL;
     try {
-    const res = await fetch("http://rust-api.portfolio-backend.svc.cluster.local:8000/blogs", {
+    const res = await fetch(`${baseUrl}/blogs`, {
       cache: "force-cache", 
       next: { tags: ['blogs'] } 
     });
