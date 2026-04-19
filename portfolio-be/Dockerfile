@@ -23,6 +23,6 @@ RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/
 RUN useradd -ms /bin/bash appuser
 USER appuser
 
-COPY --from=builder /target/release/portfolio-be /app/portfolio-be
+COPY --from=builder /app/target/release/portfolio-be /app/portfolio-be
 EXPOSE 8000
 CMD ["./portfolio-be"]
