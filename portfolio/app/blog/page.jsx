@@ -6,6 +6,7 @@ import Image from "next/image";
 
 async function get_blogs() {
     const baseUrl = process.env.API_URL;
+    console.log(baseUrl);
     try {
     const res = await fetch(`${baseUrl}/blogs`, {
       cache: "force-cache", 
@@ -36,10 +37,6 @@ export default async function Blog() {
   const blogs = await get_blogs();
   console.log(blogs);
   const latest_blogs = [...blogs].reverse().slice(0, 5);
-
-
-
-
 
   const render_blogs = (blogs_to_render) => {
     return (
