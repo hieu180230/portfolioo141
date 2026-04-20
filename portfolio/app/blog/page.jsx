@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import React from "react";
 import { format, formatDate } from "date-fns";
 import Link from "next/link";
@@ -6,7 +7,6 @@ import Image from "next/image";
 
 async function get_blogs() {
   const baseUrl = process.env.API_URL;
-  console.log(baseUrl);
 
   if (!baseUrl) {
     console.warn(
@@ -17,7 +17,7 @@ async function get_blogs() {
 
   try {
     const res = await fetch(`${baseUrl}/blogs`, {
-      cache: "force-cache",
+      cache: "no-store",
       next: { tags: ["blogs"] },
     });
 
