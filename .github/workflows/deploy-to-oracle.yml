@@ -50,8 +50,8 @@ jobs:
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
 
-          yq e '(.spec.source.helm.parameters[] | select(.name == "frontend.tag")).value = "${{ env.IMAGE_TAG }}"' -i application-fe.yaml
-          yq e '(.spec.source.helm.parameters[] | select(.name == "backend.tag")).value = "${{ env.IMAGE_TAG }}"' -i application-be.yaml
+          yq e 'frontend.tag = "${{ env.IMAGE_TAG }}"' -i frontend-chart/values.yaml
+          yq e 'backend.tag = "${{ env.IMAGE_TAG }}"' -i backend-chart/values.yaml
 
           if [ -n "$(git status --porcelain)" ]; then
             git add application-fe.yaml
