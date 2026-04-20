@@ -5,14 +5,22 @@ import Loading from "../loading";
 import Image from "next/image";
 
 async function get_blogs() {
-    const baseUrl = process.env.API_URL;
-    console.log(baseUrl);
-    try {
+  const baseUrl = process.env.API_URL;
+  console.log(baseUrl);
+
+  if (!baseUrl) {
+    console.warn(
+      "API_URL is undefined! Returning empty array for prerender.",
+    );
+    return [];
+  }
+
+  try {
     const res = await fetch(`${baseUrl}/blogs`, {
-      cache: "force-cache", 
-      next: { tags: ['blogs'] } 
+      cache: "force-cache",
+      next: { tags: ["blogs"] },
     });
-    
+
     if (!res.ok) throw new Error("Backend collapsed");
     return res.json();
   } catch (error) {
@@ -22,15 +30,15 @@ async function get_blogs() {
 }
 
 const from_date = (date_string) => {
-    try {
-      const date = new Date(date_string);
-      return isNaN(date.getTime())
-        ? "Invalid Date"
-        : format(date, "iii LLL dd yyyy");
-    } catch (error) {
-      console.error(error);
-      return "Invalid Date";
-    }
+  try {
+    const date = new Date(date_string);
+    return isNaN(date.getTime())
+      ? "Invalid Date"
+      : format(date, "iii LLL dd yyyy");
+  } catch (error) {
+    console.error(error);
+    return "Invalid Date";
+  }
 };
 
 export default async function Blog() {
@@ -397,5 +405,4 @@ export default async function Blog() {
       </div>
     </div>
   );
-};
-
+}
