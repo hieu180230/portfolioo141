@@ -41,7 +41,7 @@ const from_date = (date_string) => {
   }
 };
 
-export default async function Blog() {
+const Blog = async () => {
   const blogs = await get_blogs();
   console.log(blogs);
   const latest_blogs = [...blogs].reverse().slice(0, 5);
@@ -406,3 +406,5 @@ export default async function Blog() {
     </div>
   );
 }
+
+export default Blog;
