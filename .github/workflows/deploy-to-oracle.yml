@@ -54,8 +54,8 @@ jobs:
           yq e '.backend.tag = "${{ env.IMAGE_TAG }}"' -i backend-chart/values.yaml
 
           if [ -n "$(git status --porcelain)" ]; then
-            git add application-fe.yaml
-            git add application-be.yaml
+            git add frontend-chart/values.yaml
+            git add backend-chart/values.yaml
             git commit -m "chore: update application image tags to ${{ env.IMAGE_TAG }} via CI"
             git push origin main
             echo "Tag changed, manifest pushed!"
