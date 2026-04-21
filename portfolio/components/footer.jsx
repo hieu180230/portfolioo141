@@ -2,7 +2,7 @@ import Social from "@/components/social";
 
 const Footer = () => {
   return (
-    <footer className="py-4 text-accent-alt footer bg-primary opacity-0 hover:opacity-90 transition-opacity">
+    <footer className="py-4 text-accent-alt footer bg-primary opacity-0 hover:opacity-90 transition-opacity bottom-0">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
           {/* Logo & Tagline */}

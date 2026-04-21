@@ -1,4 +1,5 @@
 export const dynamic = 'force-dynamic';
+
 import React from "react";
 import { format, formatDate } from "date-fns";
 import Link from "next/link";
@@ -43,7 +44,6 @@ const from_date = (date_string) => {
 
 const Blog = async () => {
   const blogs = await get_blogs();
-  console.log(blogs);
   const latest_blogs = [...blogs].reverse().slice(0, 5);
 
   const render_blogs = (blogs_to_render) => {

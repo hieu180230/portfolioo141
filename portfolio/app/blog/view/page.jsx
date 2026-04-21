@@ -1,49 +1,41 @@
-"use client";
+export const dynamic = 'force-dynamic';
 
 import { useSearchParams } from "next/navigation";
 import Loading from "@/app/loading";
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { format, formatDate } from "date-fns";
 
-const BlogView = () => {
-  const [blog, set_blog] = useState();
-  const [status, set_status] = useState(0);
+async function get_blog(post_id) {
+  const baseUrl = process.env.API_URL;
+
+  if (!baseUrl) {
+    console.warn(
+      "API_URL is undefined!",
+    );
+    return undefined;
+  }
+
+  try {
+    const res = await fetch(`${baseUrl}/blog?id=${post_id}`, {
+      cache: "no-store",
+      next: { tags: ["blogs"] },
+    });
+
+    if (!res.ok) throw new Error("Backend collapsed");
+    return res.json();
+  } catch (error) {
+    console.error(error);
+    return undefined;
+  }
+}
+
+const BlogView = async () => {
   const params = useSearchParams();
   const post_id = params.get("id");
 
-  const fetch_blog = async () => {
-    try {
-      const response = await axios.get(
-        `https://portfolioo-141.shuttle.app/blog/view?id=${post_id}`,
-        {},
-      );
-      set_blog(response.data);
-      set_status(1);
-      console.log(blog);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    const fetch_blog = async () => {
-      try {
-        const response = await axios.get(
-          `https://portfolioo-141.shuttle.app/blog/view?id=${post_id}`,
-          {},
-        );
-        set_blog(response.data);
-        set_status(1);
-      } catch (err) {
-        console.error(err);
-        set_status(0);
-      }
-    };
-    fetch_blog();
-  });
+  const blog = await get_blog(post_id);
 
   const from_date = (date_string) => {
     try {
