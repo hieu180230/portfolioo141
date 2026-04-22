@@ -1,6 +1,5 @@
 export const dynamic = 'force-dynamic';
 
-import { useSearchParams } from "next/navigation";
 import Loading from "@/app/loading";
 import React from "react";
 import ReactMarkdown from "react-markdown";
@@ -31,10 +30,9 @@ async function get_blog(post_id) {
   }
 }
 
-const BlogView = async () => {
-  const params = useSearchParams();
-  const post_id = params.get("id");
-
+const BlogView = async ({ searchParams }) => {
+  const post_id = (await searchParams).id;
+  console.log(post_id); 
   const blog = await get_blog(post_id);
 
   const from_date = (date_string) => {
