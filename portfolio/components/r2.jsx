@@ -1,6 +1,9 @@
+export const dynamic = 'force-dynamic';
+
 import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
 
 export function getR2PublicUrl(fileName) {
+  console.log(process.env.R2_PUBLIC_URL)
   const R2_PUBLIC_URL = process.env.R2_PUBLIC_URL
   if (!R2_PUBLIC_URL) {
     throw new Error("R2_PUBLIC_URL not configured");
