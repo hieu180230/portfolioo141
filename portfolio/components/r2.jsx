@@ -1,8 +1,7 @@
 import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
 
-const R2_PUBLIC_URL = process.env.R2_PUBLIC_URL
-
 export function getR2PublicUrl(fileName) {
+  const R2_PUBLIC_URL = process.env.R2_PUBLIC_URL
   if (!R2_PUBLIC_URL) {
     throw new Error("R2_PUBLIC_URL not configured");
   }
