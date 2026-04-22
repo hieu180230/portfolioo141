@@ -227,7 +227,7 @@ const Blog = async () => {
               >
                 <div className="btn-content cp-item item-normal flex flex-col z-1 bg-white justify-center">
                   <Image
-                    src="assets/image/morgana.jpg"
+                    src="/assets/image/morgana.jpg"
                     alt=""
                     className="image absolute bottom-[40px] align-baseline z-1"
                   />

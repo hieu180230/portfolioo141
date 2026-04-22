@@ -54,7 +54,7 @@ const Work = async () => {
                 return (
                   <div
                     key={index}
-                    className="flex-1 flex flex-col justify-center gap-6 group bg-primary-hover px-6 py-4 rounded-xl shadow hover:shadow-destructive-hover hover:shadow-lg border-b-4 border-accent hover:border-destructive-foreground hover:scale-110 transition-all mx-4"
+                    className="flex-1 flex flex-col justify-center gap-6 group bg-primary-hover px-6 py-4 rounded-xl shadow hover:shadow-destructive-hover hover:shadow-lg border-b-4 border-accent hover:border-destructive-foreground hover:scale-110 transition-all mx-4 my-4"
                   >
                     <div className="w-full flex justify-between items-center">
                       <div className="text-3xl font-bold text-primary transition-all duration-500">

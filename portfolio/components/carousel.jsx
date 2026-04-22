@@ -7,6 +7,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import Panel from './panel';
 import Image from "next/image";
+import {getR2PublicUrl} from "@/components/r2"
 
 const Carousel = ({ data }) => {
 
@@ -26,7 +27,7 @@ const Carousel = ({ data }) => {
     >
       {data.map((p_project, index) => (
         <SwiperSlide key={index}>
-          <Image src={p_project.img_url} alt="" className="relative z-10" loading="lazy" />
+          <Image src={getR2PublicUrl(p_project.img_url)} alt="" className="relative z-10" loading="lazy" />
           <Panel panel_style="swiper-panel">
             <h1>{p_project.title}</h1>
             <p>{p_project.description}</p>
