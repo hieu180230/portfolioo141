@@ -27,10 +27,10 @@ const Carousel = ({ data, r2_pub_url }) => {
     >
       {data.map((p_project, index) => (
         <SwiperSlide key={index}>
-          <Image src={getR2PublicUrl(r2_pub_url, p_project.img_url)} alt="" className="relative z-10" loading="lazy" />
+          <Image src={p_project.img_url} alt="" className="relative z-10" loading="lazy" width={800} height={600} />
           <Panel panel_style="swiper-panel">
-            <h1>{p_project.title}</h1>
-            <p>{p_project.description}</p>
+            <h1 className="flex line-clamp-2 mb-2">{p_project.title}</h1>
+            <p className="flex line-clamp-4">{p_project.description}</p>
           </Panel>
         </SwiperSlide>
       ))}

@@ -60,7 +60,7 @@ const Panel = ({
 
   return (
     <div
-      className={`${panel_style} flex relative z-20 justify-items-center`}
+      className={`${panel_style} relative flex z-20 `}
       style={{ width: `${totalWidth}px`, height: `${totalHeight}px` }}
     >
       {/* <canvas
@@ -86,7 +86,18 @@ const Panel = ({
           strokeWidth="4"
         />
       </svg>
-      <div className="z-10 relative w-full h-full">{children}</div>
+      <div 
+        className="absolute z-10 flex flex-col justify-baseline items-center text-center"
+        style={{
+          // Ép cái lồng chữ nằm lọt thỏm bên trong các đường xéo của đa giác
+          top: `${shadowPadding + topOffset}px`, 
+          bottom: `${shadowPadding + bottomOffset}px`,
+          left: `${shadowPadding * 2}px`,
+          right: `${shadowPadding * 2}px`,
+        }}
+      >
+        {children}
+      </div>
     </div>
   );
 };

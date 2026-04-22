@@ -438,9 +438,6 @@
       z-index: 20;
       font-weight: 600;
       font-size: x-large;
-      margin-top: -13rem;
-      margin-left: 3rem;
-      margin-right: 3rem;
       text-align: center;
       color: var(--foreground);
     }
@@ -452,7 +449,9 @@
       text-align: center;
       font-weight: 500;
       font-size: larger;
-      margin: 0.5rem 2rem;
+      margin-bottom: 1rem;
+      margin-left: 2rem;
+      margin-right: 2rem;
       color: var(--foreground);
     }
   }

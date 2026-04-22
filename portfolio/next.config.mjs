@@ -9,6 +9,11 @@ const nextConfig = {
         hostname: "pub-*.r2.dev", // R2 default public domain
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "picsum.photos", // R2 default public domain
+        pathname: "/**",
+      },
     ],
   },
 };
