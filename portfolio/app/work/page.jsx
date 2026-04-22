@@ -35,7 +35,7 @@ const Work = async () => {
     <section className="container w-screen flex flex-col justify-center mx-auto">
       {projects.length > 3 ? (
         <div className="h-fit w-full flex relative my-10 overflow-visible">
-          <Carousel data={projects} />
+          <Carousel data={projects} r2_pub_url={process.env.R2_PUBLIC_URL} />
         </div>
       ) : (
         <div>
