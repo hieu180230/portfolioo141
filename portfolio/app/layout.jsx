@@ -33,7 +33,7 @@ export default function RootLayout({ children }) {
       <head>
         {/* CẤY GHÉP BỌ THEO DÕI UMAMI VÀO ĐÂY */}
         <Script
-          src="https://nnhieu-umami.duckdns.org/script.js"
+          src="https://cloud.umami.is/script.js"
           data-website-id="1b6fae1a-6414-4831-b0cb-cce0e4f7eb58"
           strategy="afterInteractive"
         />
