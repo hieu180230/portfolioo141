@@ -391,7 +391,7 @@ const Blog = async () => {
           <Loading />
         </div>
       )}
-      <div className="transition-all btn-shadow w-fit fixed bottom-5 right-5">
+      {/* <div className="transition-all btn-shadow w-fit fixed bottom-5 right-5">
         <div className="btn cp-add-button bg-accent hover:bg-destructive-foreground text-accent hover:text-destructive-foreground transition-all font-bold text-xl h-[60px] w-[60px] place-self-end">
           <Link href="/blog/add">
             <span className="btn-content bg-white cp-add-button items-center justify-center">
@@ -402,7 +402,7 @@ const Blog = async () => {
             </span>
           </Link>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
