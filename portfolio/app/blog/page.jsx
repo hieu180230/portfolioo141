@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import React from "react";
 import { format, formatDate } from "date-fns";
 import Link from "next/link";
@@ -5,13 +7,21 @@ import Loading from "../loading";
 import Image from "next/image";
 
 async function get_blogs() {
-    const baseUrl = process.env.API_URL;
-    try {
+  const baseUrl = process.env.API_URL;
+
+  if (!baseUrl) {
+    console.warn(
+      "API_URL is undefined! Returning empty array for prerender.",
+    );
+    return [];
+  }
+
+  try {
     const res = await fetch(`${baseUrl}/blogs`, {
-      cache: "force-cache", 
-      next: { tags: ['blogs'] } 
+      cache: "no-store",
+      next: { tags: ["blogs"] },
     });
-    
+
     if (!res.ok) throw new Error("Backend collapsed");
     return res.json();
   } catch (error) {
@@ -21,25 +31,20 @@ async function get_blogs() {
 }
 
 const from_date = (date_string) => {
-    try {
-      const date = new Date(date_string);
-      return isNaN(date.getTime())
-        ? "Invalid Date"
-        : format(date, "iii LLL dd yyyy");
-    } catch (error) {
-      console.error(error);
-      return "Invalid Date";
-    }
+  try {
+    const date = new Date(date_string);
+    return isNaN(date.getTime())
+      ? "Invalid Date"
+      : format(date, "iii LLL dd yyyy");
+  } catch (error) {
+    console.error(error);
+    return "Invalid Date";
+  }
 };
 
-export default async function Blog() {
+const Blog = async () => {
   const blogs = await get_blogs();
-  console.log(blogs);
   const latest_blogs = [...blogs].reverse().slice(0, 5);
-
-
-
-
 
   const render_blogs = (blogs_to_render) => {
     return (
@@ -222,7 +227,7 @@ export default async function Blog() {
               >
                 <div className="btn-content cp-item item-normal flex flex-col z-1 bg-white justify-center">
                   <Image
-                    src="assets/image/morgana.jpg"
+                    src="/assets/image/morgana.jpg"
                     alt=""
                     className="image absolute bottom-[40px] align-baseline z-1"
                   />
@@ -386,7 +391,7 @@ export default async function Blog() {
           <Loading />
         </div>
       )}
-      <div className="transition-all btn-shadow w-fit fixed bottom-5 right-5">
+      {/* <div className="transition-all btn-shadow w-fit fixed bottom-5 right-5">
         <div className="btn cp-add-button bg-accent hover:bg-destructive-foreground text-accent hover:text-destructive-foreground transition-all font-bold text-xl h-[60px] w-[60px] place-self-end">
           <Link href="/blog/add">
             <span className="btn-content bg-white cp-add-button items-center justify-center">
@@ -397,8 +402,9 @@ export default async function Blog() {
             </span>
           </Link>
         </div>
-      </div>
+      </div> */}
     </div>
   );
-};
+}
 
+export default Blog;

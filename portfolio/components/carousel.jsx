@@ -1,4 +1,5 @@
-import { useState } from 'react'
+"use client";
+
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 import 'swiper/css';
@@ -6,8 +7,9 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import Panel from './panel';
 import Image from "next/image";
+import {getR2PublicUrl} from "@/components/r2"
 
-const Carousel = ({ data }) => {
+const Carousel = ({ data, r2_pub_url }) => {
 
   return (
     <Swiper
@@ -25,10 +27,10 @@ const Carousel = ({ data }) => {
     >
       {data.map((p_project, index) => (
         <SwiperSlide key={index}>
-          <Image src={p_project.img_url} alt="" className="relative z-10" loading="lazy" />
+          <Image src={p_project.img_url} alt="" className="relative z-10" loading="lazy" width={800} height={600} />
           <Panel panel_style="swiper-panel">
-            <h1>{p_project.title}</h1>
-            <p>{p_project.description}</p>
+            <h1 className="flex line-clamp-2 mb-2">{p_project.title}</h1>
+            <p className="flex line-clamp-4">{p_project.description}</p>
           </Panel>
         </SwiperSlide>
       ))}
