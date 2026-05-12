@@ -113,7 +113,7 @@ const Work = async () => {
         </div>
       ) : (
         <div>
-          <Loading />
+          <Loading desc="Project Carousel is temporarily unavailable!"/>
         </div>
       )}
       {/* Full project */}

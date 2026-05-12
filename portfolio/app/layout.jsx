@@ -27,13 +27,11 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  new Promise((resolve) => setTimeout(resolve, 3000));
   return (
     <html lang="en" className="h-full w-full relative">
       <head>
-        {/* CẤY GHÉP BỌ THEO DÕI UMAMI VÀO ĐÂY */}
         <Script
-          src="https://cloud.umami.is/script.js"
+          src={process.env.UMAMI_URL}
           data-website-id="1b6fae1a-6414-4831-b0cb-cce0e4f7eb58"
           strategy="afterInteractive"
         />
