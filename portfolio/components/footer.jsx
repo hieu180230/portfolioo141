@@ -1,6 +1,18 @@
+"use client";
+
+import { usePathname } from "next/navigation";
 import Social from "@/components/social";
 
+
 const Footer = () => {
+  const pathname = usePathname();
+
+  const hiddenPaths = ["/dnd"];
+
+  if (hiddenPaths.includes(pathname)) {
+    return null;
+  }
+
   return (
     <footer className="py-4 text-accent-alt footer bg-primary opacity-0 hover:opacity-90 transition-opacity fixed bottom-0 w-full">
       <div className="container mx-auto px-4">

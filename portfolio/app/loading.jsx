@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import React from 'react'
 
-const Loading = () => {
+const Loading = ({desc}) => {
   return (
     <StyledWrapper>
       <div className="ui-abstergo">
@@ -13,7 +13,7 @@ const Loading = () => {
           <div />
         </div>
         <div className="ui-text">
-          Synchronization
+          {desc ? desc : "Synchronizing"}
           <div className="ui-dot" />
           <div className="ui-dot" />
           <div className="ui-dot" />

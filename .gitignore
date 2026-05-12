@@ -1,3 +1,7 @@
 .env*
 Secrets*.toml
 /secret
+portfolio/app/dnd/page.jsx
+portfolio/components/dnd/DnDMap.jsx
+portfolio/components/dnd/GameLog.jsx
+portfolio/components/dnd/HUD.jsx
