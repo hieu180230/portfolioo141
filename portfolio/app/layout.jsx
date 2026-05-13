@@ -31,7 +31,7 @@ export default function RootLayout({ children }) {
     <html lang="en" className="h-full w-full relative">
       <head>
         <Script
-          src={process.env.UMAMI_URL}
+          src="https://cloud.umami.is/script.js"
           data-website-id="1b6fae1a-6414-4831-b0cb-cce0e4f7eb58"
           strategy="afterInteractive"
         />
