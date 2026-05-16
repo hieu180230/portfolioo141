@@ -33,10 +33,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@radix-ui/react-tooltip";
+import Loading from "../loading";
 
 const Resume = async () => {
   const resumes = await get_resume_items();
-
+  console.log(resumes);
   const about = resumes.about;
   const exp = resumes.experience;
   const edu = resumes.education;
@@ -46,7 +47,7 @@ const Resume = async () => {
     <div
       className="min-h-[80vh] flex items-center justify-center -py-12 xl:py-0"
     >
-      <div className="container mx-auto">
+      {resumes.length > 0 ? (<div className="container mx-auto">
         <Tabs
           defaultValue="exp"
           className="flex flex-col xl:flex-row gap-[60px]"
@@ -188,7 +189,7 @@ const Resume = async () => {
             </TabsContent>
           </div>
         </Tabs>
-      </div>
+      </div>) : <Loading desc="404"/>}
     </div>
   );
 };
