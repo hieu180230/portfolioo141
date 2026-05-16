@@ -12,7 +12,7 @@ async function get_resume_items() {
   }
 
   try {
-    const res = await fetch(`${baseUrl}/resume`, {
+    const res = await fetch(`${baseUrl}/resumes`, {
       cache: "no-store",
       next: { tags: ["blogs"] },
     });
