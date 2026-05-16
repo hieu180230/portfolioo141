@@ -48,7 +48,7 @@ const Blog = async () => {
 
   const render_blogs = (blogs_to_render) => {
     return (
-      <div className="flex flex-col h-full w-full">
+      <div className="flex flex-col h-full w-full relative">
         <div className="flex flex-row justify-center items-center pt-10">
           <svg height="8" width="200">
             <defs>
@@ -107,16 +107,16 @@ const Blog = async () => {
             <circle cx="10" cy="4" r="2" fill="var(--accent)" />
           </svg>
         </div>
-        <ul className="px-4 text-center flex flex-col w-full gap-6 h-full justify-center items-center">
+        <ul className="p-10 text-center relative flex flex-col gap-10 w-full h-190 overflow-auto items-center border-2 rounded-md">
           {blogs_to_render.map((blog, index) => (
             <div
               key={index}
               tabIndex="-1"
-              className="flex transition-all btn-shadow h-1/7 w-full my-2 align-baseline hover:scale-105"
+              className="flex transition-all btn-shadow h-1/7 w-full hover:scale-105 justify-center"
             >
               <li
                 key={index}
-                className="btn cp-panel bg-accent hover:bg-destructive-foreground flex text-primary font-bold text-xl h-full w-full"
+                className="btn cp-panel bg-accent hover:bg-destructive-foreground flex text-primary font-bold text-xl h-30 w-300"
               >
                 <Link
                   href={{ pathname: "/blog/view", query: blog.$oid }}
@@ -124,14 +124,14 @@ const Blog = async () => {
                   className="place-self-end"
                 >
                   <div className="btn-content bg-white cp-panel items-center flex flex-col">
-                    <div className="py-2 px-2 text-center w-full">
+                    <div className="py-3 px-2 text-center w-full">
                       {`${blog.title}`}
                     </div>
                     <div className="flex flex-row overflow-scroll overflow-y-hidden h-fit w-full px-2 justify-center">
                       {blog.tags.map((tag, index) => (
                         <div
                           key={index}
-                          className="btn cp-tag bg-accent w-[9rem] h-[2rem] flex text-accent font-bold text-sm"
+                          className="btn cp-tag bg-accent w-[9rem] h-[2rem] flex text-accent font-bold text-sm mx-1.5"
                         >
                           <div className="btn-content cp-tag bg-white items-center justify-center z-2">
                             {tag}
@@ -152,9 +152,9 @@ const Blog = async () => {
     );
   };
 
-  const render_latest = (blogs_to_render) => {
+  const render_latest = (blogs_to_render, full_blogs) => {
     return (
-      <div className="w-[85rem] h-[110rem] flex flex-col justify-center mx-auto">
+      <div className="w-[85rem] h-[110rem] flex flex-col justify-center mx-auto relative">
         <div className="flex flex-row justify-center items-center ">
           <svg height="8" width="200">
             <defs>
@@ -213,9 +213,9 @@ const Blog = async () => {
             <circle cx="10" cy="4" r="2" fill="var(--accent)" />
           </svg>
         </div>
-        <div className="grid grid-cols-4 grid-rows-2 gap-4 h-[90rem] py-5">
+        <div className="grid grid-cols-4 grid-rows-2 gap-4 h-[90rem] py-5 relative">
           {/* Feature */}
-          <div className="item-shadow transition-all col-span-2 row-span-2 row-start-1 col-start-3 z-2">
+          <div className="item-shadow transition-all col-span-2 row-span-2 row-start-1 col-start-3 z-2 h-full w-full">
             <div className="btn cp-item item w-full h-full align-top bg-accent">
               <Link
                 href={{
@@ -227,6 +227,7 @@ const Blog = async () => {
               >
                 <div className="btn-content cp-item item-normal flex flex-col z-1 bg-white justify-center">
                   <Image
+                    fill
                     src="/assets/image/morgana.jpg"
                     alt=""
                     className="image absolute bottom-[40px] align-baseline z-1"
@@ -258,7 +259,8 @@ const Blog = async () => {
               >
                 <div className="btn-content cp-item item-normal flex flex-col z-1 bg-white justify-center">
                   <Image
-                    src="assets/image/morgana.jpg"
+                    fill
+                    src="/assets/image/morgana.jpg"
                     alt=""
                     className="image absolute bottom-[40px] align-baseline z-1"
                   />
@@ -289,7 +291,8 @@ const Blog = async () => {
               >
                 <div className="btn-content cp-item item-normal flex flex-col z-1 bg-white justify-center">
                   <Image
-                    src="assets/image/morgana.jpg"
+                    fill
+                    src="/assets/image/morgana.jpg"
                     alt=""
                     className="image absolute bottom-[40px] align-baseline z-1"
                   />
@@ -320,7 +323,8 @@ const Blog = async () => {
               >
                 <div className="btn-content cp-item item-normal flex flex-col z-1 bg-white justify-center">
                   <Image
-                    src="assets/image/morgana.jpg"
+                    fill
+                    src="/assets/image/morgana.jpg"
                     alt=""
                     className="image absolute bottom-[40px] align-baseline z-1"
                   />
@@ -356,7 +360,8 @@ const Blog = async () => {
               >
                 <div className="btn-content cp-item item-normal flex flex-col z-1 bg-white justify-center">
                   <Image
-                    src="assets/image/morgana.jpg"
+                    fill
+                    src="/assets/image/morgana.jpg"
                     alt=""
                     className="image absolute bottom-[40px] align-baseline z-1"
                   />
@@ -375,17 +380,17 @@ const Blog = async () => {
             </div>
           </div>
         </div>
-        {render_blogs(blogs_to_render)}
+        {render_blogs(full_blogs)}
       </div>
     );
   };
-
+  
   return (
-    <div className="h-screen w-3/4 m-auto">
+    <div className="w-3/4 mx-auto mb-4">
       {/* Body */}
       {/* {render_blogs(blogs)} */}
       {blogs.length > 0 ? (
-        render_latest(latest_blogs)
+        render_latest(latest_blogs, blogs)
       ) : (
         <div>
           <Loading />

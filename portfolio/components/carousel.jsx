@@ -7,7 +7,6 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import Panel from './panel';
 import Image from "next/image";
-import {getR2PublicUrl} from "@/components/r2"
 
 const Carousel = ({ data, r2_pub_url }) => {
 
