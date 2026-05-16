@@ -37,10 +37,12 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body
-        className={`${jetbrain.className} font-mono antialiased h-screen w-screen self-center overflow-y-scroll flex flex-col relative z-1`}
+        className={`${jetbrain.className} font-mono antialiased min-h-screen w-screen self-center overflow-y-scroll flex flex-col relative z-1`}
       >
         <Header className="" />
-        <Suspense fallback={<Loading />}>{children}</Suspense>
+        <main className="flex-grow">
+          <Suspense fallback={<Loading />}>{children}</Suspense>
+        </main>
         <Footer />
       </body>
     </html>

@@ -14,7 +14,7 @@ const Footer = () => {
   }
 
   return (
-    <footer className="py-4 text-accent-alt footer bg-primary opacity-0 hover:opacity-90 transition-opacity fixed bottom-0 w-full">
+    <footer className="py-4 text-accent-alt footer bg-primary opacity-90 transition-opacity relative bottom-0 w-full">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
           {/* Logo & Tagline */}
@@ -57,8 +57,10 @@ const Footer = () => {
           </div>
         </div>
 
+        <div className="text-center my-1.5 italic">« For those who come after »</div>
+
         {/* Bottom Copyright */}
-        <div className="border-t border-white/50 text-center mt-5">
+        <div className="border-t border-white/50 text-center">
           <p className="text-white text-xs pt-2">
             &copy; {new Date().getFullYear()} Nguyen Nhat Hieu. All rights
             reserved.

@@ -9,6 +9,7 @@ use be::{
     blog_model::{get_blog_by_id, get_blogs},
     db::Database,
     project_model::get_projects,
+    resume_model::get_resumes,
 };
 
 #[actix_web::main]
@@ -37,6 +38,7 @@ async fn main() -> std::io::Result<()> {
             .route("/blogs", web::get().to(get_blogs))
             .route("/blog", web::get().to(get_blog_by_id))
             .route("/projects", web::get().to(get_projects))
+            .route("/resumes", web::get().to(get_resumes))
             .route(
                 "/health",
                 web::get().to(|| async { HttpResponse::Ok().body("Alive") }),
