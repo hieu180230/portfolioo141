@@ -26,7 +26,6 @@ async function get_resume_items() {
 }
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { motion } from "framer-motion";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import {
   Tooltip,
@@ -44,12 +43,7 @@ const Resume = async () => {
   const skill = resumes.skills;
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{
-        opacity: 1,
-        transition: { delay: 0.4, duration: 0.4, ease: "easeIn" },
-      }}
+    <div
       className="min-h-[80vh] flex items-center justify-center -py-12 xl:py-0"
     >
       <div className="container mx-auto">
@@ -195,7 +189,7 @@ const Resume = async () => {
           </div>
         </Tabs>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
