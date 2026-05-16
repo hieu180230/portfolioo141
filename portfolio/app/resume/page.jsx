@@ -37,11 +37,10 @@ import Loading from "../loading";
 
 const Resume = async () => {
   const resumes = await get_resume_items();
-  console.log(resumes);
-  const about = resumes.about;
-  const exp = resumes.experience;
-  const edu = resumes.education;
-  const skill = resumes.skills;
+  const about = resumes[0].about;
+  const exp = resumes[0].experience;
+  const edu = resumes[0].education;
+  const skill = resumes[0].skills;
 
   return (
     <div
