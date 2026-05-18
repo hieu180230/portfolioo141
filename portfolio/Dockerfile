@@ -15,20 +15,20 @@
 # CMD ["npm", "run", "start"]
 
 # Stage 1: Dependencies
-FROM node:23-alpine AS deps
+FROM node:23-bookworm-slim AS deps
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 
 # Stage 2: Builder
-FROM node:23-alpine AS builder
+FROM node:23-bookworm-slim AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm run build
 
 # Stage 3: Production Runner (The actual server)
-FROM node:23-alpine AS runner
+FROM node:23-bookworm-slim AS runner
 WORKDIR /app
 
 RUN addgroup --system --gid 1001 nodejs
