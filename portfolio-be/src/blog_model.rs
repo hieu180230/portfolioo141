@@ -2,7 +2,6 @@ use actix_web::{web, web::Data, HttpResponse, Responder};
 use futures_util::StreamExt;
 use mongodb::bson::{doc, oid::ObjectId};
 use serde::{Deserialize, Serialize};
-use serde_json::json;
 use std::sync::MutexGuard;
 
 use crate::appstate::AppState;

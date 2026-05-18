@@ -7,7 +7,7 @@ import remarkGfm from "remark-gfm";
 import { format, formatDate } from "date-fns";
 
 async function get_blog(post_id) {
-  const baseUrl = process.env.API_URL;
+  const baseUrl = process.env.API_URL || "http://localhost:8000";
 
   if (!baseUrl) {
     console.warn(

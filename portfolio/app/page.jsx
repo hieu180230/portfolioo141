@@ -1,17 +1,64 @@
-"use client";
-
-import React from "react";
+import React, { Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import { FiDownload } from "react-icons/fi";
 import Social from "@/components/social";
 import Photo from "@/components/photo";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
+import Summary from "@/components/summary";
+import Carousel from "@/components/carousel";
+import Loading from "./loading";
 
-const ForceGraph2D = dynamic(() => import("react-force-graph-2d"), {
-  ssr: false,
-});
+// const ForceGraph2D = dynamic(() => import("react-force-graph-2d"), {
+//   ssr: false,
+// });
 
-const Home = () => {
+async function get_resume_items() {
+  const baseUrl = process.env.API_URL || "http://localhost:8000";
+
+  if (!baseUrl) {
+    console.warn("API_URL is undefined! Returning empty array for prerender.");
+    return [];
+  }
+
+  try {
+    const res = await fetch(`${baseUrl}/resumes`, {
+      cache: "no-store",
+      next: { tags: ["blogs"] },
+    });
+
+    if (!res.ok) throw new Error("Backend collapsed");
+    return res.json();
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
+
+async function get_blogs() {
+  const baseUrl = process.env.API_URL || "http://localhost:8000";
+
+  if (!baseUrl) {
+    console.warn("API_URL is undefined! Returning empty array for prerender.");
+    return [];
+  }
+
+  try {
+    const res = await fetch(`${baseUrl}/blogs`, {
+      cache: "no-store",
+      next: { tags: ["blogs"] },
+    });
+
+    if (!res.ok) throw new Error("Backend collapsed");
+    return res.json();
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
+
+const Home = async () => {
+  const resumes = await get_resume_items();
+  const projects = await get_blogs();
 
   const graphData = {
     nodes: [
@@ -42,8 +89,8 @@ const Home = () => {
   return (
     <section className="h-full">
       <div className="container mx-auto h-full">
-        <div className="flex flex-col xl:flex-row items-center xl:pt-8 xl:bp-24 justify-between">
-          <div className="text-center xl:text-left order-0 xl:order-none">
+        <div className="flex flex-col xl:flex-row xl:bp-24 justify-center gap-60 my-10">
+          <div className="text-center xl:text-left order-0 xl:order-none w-full py-10">
             <span className="text-xl italic">But it works on my machine!</span>
             <h1 className="h1">
               Hello I'm
@@ -57,14 +104,15 @@ const Home = () => {
                 variant="outline"
                 size="lg"
                 className="uppercase flex items-center gap-2"
-                onClick={() => {
-                  window.open(
-                    "https://pub-b4c7a5ad511a4c668ed49987987a8fe5.r2.dev/resume/NguyenNhatHieu-Resume.pdf",
-                  );
-                }}
               >
-                <span>CV Download</span>
                 <FiDownload className="text-xl" />
+                <a
+                  href="https://pub-b4c7a5ad511a4c668ed49987987a8fe5.r2.dev/resume/NguyenNhatHieu-Resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  CV Download
+                </a>
               </Button>
               <div className="mb-8 xl:mb-0">
                 <Social
@@ -74,9 +122,12 @@ const Home = () => {
               </div>
             </div>
           </div>
+          <div className="flex-grow w-full">
+            <Summary resumes={resumes} />
+          </div>
 
           {/* Architectural Graph */}
-          <div className="relative border-2 rounded-md order-1 xl:order-none xl:w-1/2 flex-row justify-center items-center h-[500px] w-full cursor-grab active:cursor-grabbing text-center">
+          {/* <div className="relative border-2 rounded-md order-1 xl:order-none xl:w-1/2 flex-row justify-center items-center h-[500px] w-full cursor-grab active:cursor-grabbing text-center">
             <div className="relative inset-0 w-fit order-0">
               <ForceGraph2D
                 graphData={graphData}
@@ -119,8 +170,20 @@ const Home = () => {
               This is what happen in the background right now. <br /> As you can
               guess, I host this portfolio myself.{" "}
             </span>
-          </div>
+          </div> */}
         </div>
+        {projects.length > 5 ? (
+          <div className="h-fit w-full flex relative m-10 overflow-visible">
+            <Carousel
+              data={[...projects].slice(0, 5)}
+              r2_pub_url={process.env.R2_PUBLIC_URL}
+            />
+          </div>
+        ) : (
+          <div>
+            <Loading desc="Project Carousel is temporarily unavailable!" />
+          </div>
+        )}
       </div>
     </section>
   );
