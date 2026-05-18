@@ -7,6 +7,7 @@ import Photo from "@/components/photo";
 import Summary from "@/components/summary";
 import Carousel from "@/components/carousel";
 import Loading from "./loading";
+export const dynamic = 'force-dynamic';
 
 // const ForceGraph2D = dynamic(() => import("react-force-graph-2d"), {
 //   ssr: false,
