@@ -23,8 +23,8 @@ async function get_resume_items() {
 
   try {
     const res = await fetch(`${baseUrl}/resumes`, {
-      cache: "no-store",
-      next: { tags: ["blogs"] },
+      cache: "force-cache",
+      next: { tags: ["resumes"] },
     });
 
     if (!res.ok) throw new Error("Backend collapsed");
@@ -45,7 +45,7 @@ async function get_blogs() {
 
   try {
     const res = await fetch(`${baseUrl}/blogs`, {
-      cache: "no-store",
+      cache: "force-cache",
       next: { tags: ["blogs"] },
     });
 

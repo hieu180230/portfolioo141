@@ -16,8 +16,8 @@ async function get_works() {
 
   try {
     const res = await fetch(`${baseUrl}/projects`, {
-      cache: "no-store",
-      next: { tags: ["blogs"] },
+      cache: "force-cache",
+      next: { tags: ["works"] },
     });
 
     if (!res.ok) throw new Error("Backend collapsed");

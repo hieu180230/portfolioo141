@@ -18,7 +18,7 @@ async function get_blogs() {
 
   try {
     const res = await fetch(`${baseUrl}/blogs`, {
-      cache: "no-store",
+      cache: "force-cache",
       next: { tags: ["blogs"] },
     });
 
