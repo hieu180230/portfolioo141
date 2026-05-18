@@ -295,7 +295,7 @@
   }
 
   .item-shadow:hover {
-    filter: drop-shadow(0 0 0.4rem var(--color-accent));
+    filter: drop-shadow(0 0 0.4rem var(--color-destructive-foreground));
   }
 
   .item-title {

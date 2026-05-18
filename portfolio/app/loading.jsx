@@ -6,7 +6,7 @@ import React from 'react'
 const Loading = ({desc}) => {
   return (
     <StyledWrapper>
-      <div className="ui-abstergo">
+      <div className="ui-abstergo my-10">
         <div className="abstergo-loader">
           <div />
           <div />

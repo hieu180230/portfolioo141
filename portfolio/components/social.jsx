@@ -1,4 +1,3 @@
-import Link from "next/link"
 import {FaGithub, FaLinkedin, FaMailBulk} from "react-icons/fa"
 
 const socials = [

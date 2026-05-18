@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic';
 import Image from "next/image";
 
 async function get_resume_items() {
-    const baseUrl = process.env.API_URL;
+    const baseUrl = process.env.API_URL || "http://localhost:8000";
 
     if (!baseUrl) {
     console.warn(
@@ -33,7 +33,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@radix-ui/react-tooltip";
-import Loading from "../loading";
+import Loading from "@/app/loading";
 
 const Resume = async () => {
   const resumes = await get_resume_items();
@@ -48,14 +48,14 @@ const Resume = async () => {
     >
       {resumes.length > 0 ? (<div className="container mx-auto">
         <Tabs
-          defaultValue="exp"
+          defaultValue="about"
           className="flex flex-col xl:flex-row gap-[60px]"
         >
           <TabsList className="flex xl:flex-col flex-row w-full max-w-[300px] mx-auto xl:mx-0 gap-6">
+            <TabsTrigger value="about">About me</TabsTrigger>
             <TabsTrigger value="exp">Experience</TabsTrigger>
             <TabsTrigger value="edu">Education</TabsTrigger>
             <TabsTrigger value="skill">Skills</TabsTrigger>
-            <TabsTrigger value="about">About me</TabsTrigger>
           </TabsList>
 
           <div className="min-h-[70vh] w-full">

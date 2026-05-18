@@ -7,7 +7,7 @@ import Loading from "../loading";
 import Image from "next/image";
 
 async function get_blogs() {
-  const baseUrl = process.env.API_URL;
+  const baseUrl = process.env.API_URL || "http://localhost:8000";
 
   if (!baseUrl) {
     console.warn(
@@ -50,62 +50,11 @@ const Blog = async () => {
     return (
       <div className="flex flex-col h-full w-full relative">
         <div className="flex flex-row justify-center items-center pt-10">
-          <svg height="8" width="200">
-            <defs>
-              <linearGradient
-                id="face_left"
-                x1="0%"
-                y1="0%"
-                x2="100%"
-                y2="0%"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop offset="0%" stopColor="transparent" />
-                <stop offset="30%" stopColor="var(--accent)" />
-                <stop offset="100%" stopColor="var(--accent)" />
-              </linearGradient>
-            </defs>
-            <line
-              x1="0"
-              y1="4"
-              x2="190"
-              y2="4"
-              stroke="url(#face_left)"
-              strokeWidth="1.5"
-            />
-            <circle cx="190" cy="4" r="2" fill="var(--accent)" />
-          </svg>
           <span
-            className="text-center py-10 text-3xl font-semibold uppercase"
-            style={{ textShadow: "0 4px 4px var(--accent)" }}
+            className="text-center py-10 text-3xl font-bold uppercase"
           >
-            full blogs
+            « Full blogs »
           </span>
-          <svg height="8" width="200">
-            <defs>
-              <linearGradient
-                id="fade_right"
-                x1="0%"
-                y1="0%"
-                x2="100%"
-                y2="0%"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop offset="0%" stopColor="var(--accent)" />
-                <stop offset="70%" stopColor="var(--accent)" />
-                <stop offset="100%" stopColor="transparent" />
-              </linearGradient>
-            </defs>
-            <line
-              x1="10"
-              y1="4"
-              x2="200"
-              y2="4"
-              stroke="url(#fade_right)"
-              strokeWidth="1.5"
-            />
-            <circle cx="10" cy="4" r="2" fill="var(--accent)" />
-          </svg>
         </div>
         <ul className="p-10 text-center relative flex flex-col gap-10 w-full h-190 overflow-auto items-center border-2 rounded-md">
           {blogs_to_render.map((blog, index) => (
@@ -156,67 +105,16 @@ const Blog = async () => {
     return (
       <div className="w-[85rem] h-[110rem] flex flex-col justify-center mx-auto relative">
         <div className="flex flex-row justify-center items-center ">
-          <svg height="8" width="200">
-            <defs>
-              <linearGradient
-                id="face_left"
-                x1="0%"
-                y1="0%"
-                x2="100%"
-                y2="0%"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop offset="0%" stopColor="transparent" />
-                <stop offset="30%" stopColor="var(--accent)" />
-                <stop offset="100%" stopColor="var(--accent)" />
-              </linearGradient>
-            </defs>
-            <line
-              x1="0"
-              y1="4"
-              x2="190"
-              y2="4"
-              stroke="url(#face_left)"
-              strokeWidth="1.5"
-            />
-            <circle cx="190" cy="4" r="2" fill="var(--accent)" />
-          </svg>
           <span
-            className="text-center py-10 text-3xl font-semibold uppercase"
-            style={{ textShadow: "0 4px 4px var(--accent)" }}
+            className="text-center py-10 h-10 text-3xl font-bold uppercase"
           >
-            latest
+            « latest »
           </span>
-          <svg height="8" width="200">
-            <defs>
-              <linearGradient
-                id="fade_right"
-                x1="0%"
-                y1="0%"
-                x2="100%"
-                y2="0%"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop offset="0%" stopColor="var(--accent)" />
-                <stop offset="70%" stopColor="var(--accent)" />
-                <stop offset="100%" stopColor="transparent" />
-              </linearGradient>
-            </defs>
-            <line
-              x1="10"
-              y1="4"
-              x2="200"
-              y2="4"
-              stroke="url(#fade_right)"
-              strokeWidth="1.5"
-            />
-            <circle cx="10" cy="4" r="2" fill="var(--accent)" />
-          </svg>
         </div>
         <div className="grid grid-cols-4 grid-rows-2 gap-4 h-[90rem] py-5 relative">
           {/* Feature */}
-          <div className="item-shadow transition-all col-span-2 row-span-2 row-start-1 col-start-3 z-2 h-full w-full">
-            <div className="btn cp-item item w-full h-full align-top bg-accent">
+          <div className="item-shadow transition-all col-span-2 row-span-2 row-start-1 col-start-3 z-2 h-full w-full p-2">
+            <div className="btn cp-item item w-full h-full align-top bg-accent hover:bg-destructive-foreground">
               <Link
                 href={{
                   pathname: "/blog/view",
@@ -238,8 +136,8 @@ const Blog = async () => {
                         {blogs_to_render[blogs_to_render.length - 1].title}
                       </span>
                     </div>
-                    <div className="blog-title view-btn w-full text-center content-center z-3">
-                      explore
+                    <div className="blog-title view-btn w-full text-center content-center z-3 text-destructive-foreground font-semibold">
+                      explore »
                     </div>
                   </div>
                 </div>
@@ -247,8 +145,8 @@ const Blog = async () => {
             </div>
           </div>
 
-          <div className="item-shadow transition-all">
-            <div className="btn cp-item item w-full h-full align-top bg-accent">
+          <div className="item-shadow transition-all p-2">
+            <div className="btn cp-item item w-full h-full align-top bg-accent hover:bg-destructive-foreground">
               <Link
                 href={{
                   pathname: "/blog/view",
@@ -270,8 +168,8 @@ const Blog = async () => {
                         {blogs_to_render[blogs_to_render.length - 2].title}
                       </span>
                     </div>
-                    <div className="blog-title view-btn w-full text-center content-center z-3">
-                      explore
+                    <div className="blog-title view-btn w-full text-center content-center z-3 text-destructive-foreground font-semibold">
+                      explore »
                     </div>
                   </div>
                 </div>
@@ -279,8 +177,8 @@ const Blog = async () => {
             </div>
           </div>
 
-          <div className="item-shadow transition-all">
-            <div className="btn cp-item item w-full h-full align-top bg-accent">
+          <div className="item-shadow transition-all p-2">
+            <div className="btn cp-item item w-full h-full align-top bg-accent hover:bg-destructive-foreground">
               <Link
                 href={{
                   pathname: "/blog/view",
@@ -302,8 +200,8 @@ const Blog = async () => {
                         {blogs_to_render[blogs_to_render.length - 3].title}
                       </span>
                     </div>
-                    <div className="blog-title view-btn w-full text-center content-center z-3">
-                      explore
+                    <div className="blog-title view-btn w-full text-center content-center z-3 text-destructive-foreground font-semibold">
+                      explore »
                     </div>
                   </div>
                 </div>
@@ -311,8 +209,8 @@ const Blog = async () => {
             </div>
           </div>
 
-          <div className="item-shadow transition-all row-start-2">
-            <div className="btn cp-item item w-full h-full align-top bg-accent">
+          <div className="item-shadow transition-all row-start-2 p-2">
+            <div className="btn cp-item item w-full h-full align-top bg-accent hover:bg-destructive-foreground">
               <Link
                 href={{
                   pathname: "/blog/view",
@@ -333,14 +231,9 @@ const Blog = async () => {
                       <span className="item-title font-bold">
                         {blogs_to_render[blogs_to_render.length - 4].title}
                       </span>
-                      {/* <span className="">
-                                            {blogs_to_render[blogs_to_render.length - 4].tags.map((tag, index) => (
-                                                <span className="w-fit h-fit py-[2px] px-[1px] text-[17px] font-medium">{tag}</span>
-                                            ))}
-                                        </span> */}
                     </div>
-                    <div className="blog-title view-btn w-full text-center content-center z-3">
-                      explore
+                    <div className="blog-title view-btn w-full text-center content-center z-3 text-destructive-foreground font-semibold">
+                      explore »
                     </div>
                   </div>
                 </div>
@@ -348,8 +241,8 @@ const Blog = async () => {
             </div>
           </div>
 
-          <div className="item-shadow transition-all row-start-2">
-            <div className="btn cp-item item w-full h-full align-top bg-accent">
+          <div className="item-shadow transition-all row-start-2 p-2">
+            <div className="btn cp-item item w-full h-full align-top bg-accent hover:bg-destructive-foreground">
               <Link
                 href={{
                   pathname: "/blog/view",
@@ -371,8 +264,8 @@ const Blog = async () => {
                         {blogs_to_render[blogs_to_render.length - 5].title}
                       </span>
                     </div>
-                    <div className="blog-title view-btn w-full text-center content-center z-3">
-                      explore
+                    <div className="blog-title view-btn w-full text-center content-center z-3 text-destructive-foreground font-semibold">
+                      explore »
                     </div>
                   </div>
                 </div>
