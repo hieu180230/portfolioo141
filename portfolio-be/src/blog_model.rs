@@ -1,18 +1,31 @@
-use actix_web::{web, web::Data, HttpResponse, Responder};
-use futures_util::StreamExt;
-use mongodb::bson::{doc, oid::ObjectId};
-use serde::{Deserialize, Serialize};
-use std::sync::MutexGuard;
+use actix_web::{web, web::Data, HttpResponse};
+use futures_util::TryStreamExt;
+use mongodb::bson::{doc, oid::ObjectId, DateTime};
+use serde::{Deserialize, Serialize, Serializer};
 
 use crate::appstate::AppState;
 use crate::db::Database;
+use crate::error::AppError;
+
+pub mod bson_datetime_as_iso {
+    use super::*;
+
+    pub fn serialize<S>(date: &DateTime, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let iso_string = date.to_chrono().to_rfc3339();
+        serializer.serialize_str(&iso_string)
+    }
+}
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct Blog {
     pub _id: ObjectId,
     pub title: String,
     pub content: String,
-    pub created_at: String,
+    // #[serde(serialize_with = "bson_datetime_as_iso::serialize")]
+    pub created_at: DateTime,
     pub author: String,
     pub tags: Vec<String>,
 }
@@ -30,13 +43,10 @@ pub struct BlogID {
     pub id: String,
 }
 
-pub async fn get_blogs(data: Data<AppState>) -> impl Responder {
-    let blogs: MutexGuard<Database> = data.database.lock().unwrap();
-    let mut cursor = blogs.blogs.find(doc! {}).await.unwrap();
-    let mut vec_data: Vec<Blog> = Vec::new();
-    while let Some(document) = cursor.next().await {
-        vec_data.push(document.expect("add document to vector error"));
-    }
+pub async fn get_blogs(data: Data<AppState>) -> Result<HttpResponse, AppError> {
+    let blogs: &Database = &data.database;
+    let cursor = blogs.blogs.find(doc! {}).await?;
+    let mut vec_data: Vec<Blog> = cursor.try_collect().await?;
 
     for blog in vec_data.iter_mut() {
         if blog.tags.is_empty() {
@@ -45,28 +55,21 @@ pub async fn get_blogs(data: Data<AppState>) -> impl Responder {
             blog.tags[0] = "#guest".to_string();
         }
     }
-    HttpResponse::Ok().json(vec_data)
+    Ok(HttpResponse::Ok().json(vec_data))
 }
 
-pub async fn get_blog_by_id(data: Data<AppState>, query: web::Query<BlogID>) -> impl Responder {
-    let blogs: MutexGuard<Database> = data.database.lock().unwrap();
-    let id = ObjectId::parse_str(query.id.clone());
-    println!("id: {:?}", id);
-    match id {
-        Ok(t) => {
-            let cursor = blogs.blogs.find_one(doc! {"_id": t}).await;
-            match cursor {
-                Ok(document) => {
-                    if document.is_some() {
-                        HttpResponse::Ok().json(document)
-                    } else {
-                        HttpResponse::Ok().json("None")
-                    }
-                }
-                Err(e) => HttpResponse::Ok().json(format!("{e}")),
-            }
-        }
-        Err(e) => HttpResponse::Ok().json(format!("{e}")),
+pub async fn get_blog_by_id(
+    data: Data<AppState>,
+    query: web::Query<BlogID>,
+) -> Result<HttpResponse, AppError> {
+    let blogs: &Database = &data.database;
+    let id = ObjectId::parse_str(&query.id)
+        .map_err(|e| AppError::Validation(format!("Invalid ID format: {}", e)))?;
+    let document = blogs.blogs.find_one(doc! {"_id": id}).await?;
+
+    match document {
+        Some(doc) => Ok(HttpResponse::Ok().json(doc)),
+        None => Err(AppError::NotFound),
     }
 }
 

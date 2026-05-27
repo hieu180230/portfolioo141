@@ -1,10 +1,11 @@
-use actix_web::{web::Data, HttpResponse, Responder};
-use futures_util::StreamExt;
+use actix_web::{web::Data, HttpResponse};
+use futures_util::TryStreamExt;
 use mongodb::bson::{doc, oid::ObjectId};
 use serde::{Deserialize, Serialize};
-use std::sync::MutexGuard;
+// use std::sync::MutexGuard;
 // use serde_json::json;
 
+use crate::error::AppError;
 use crate::{appstate::AppState, db::Database};
 
 #[derive(Deserialize, Serialize, Clone)]
@@ -16,14 +17,11 @@ pub struct Project {
     pub img_url: String,
 }
 
-pub async fn get_projects(data: Data<AppState>) -> impl Responder {
-    let projects: MutexGuard<Database> = data.database.lock().unwrap();
-    let mut cursor = projects.projects.find(doc! {}).await.unwrap();
+pub async fn get_projects(data: Data<AppState>) -> Result<HttpResponse, AppError> {
+    let projects: &Database = &data.database;
+    let cursor = projects.projects.find(doc! {}).await?;
 
-    let mut vec_data: Vec<Project> = Vec::new();
-    while let Some(document) = cursor.next().await {
-        vec_data.push(document.expect("add document to vector error"));
-    }
+    let vec_data: Vec<Project> = cursor.try_collect().await?;
 
-    HttpResponse::Ok().json(vec_data)
+    Ok(HttpResponse::Ok().json(vec_data))
 }

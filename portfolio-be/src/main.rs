@@ -25,15 +25,15 @@ async fn main() -> std::io::Result<()> {
     });
 
     HttpServer::new(move || {
-        let cors = Cors::default()
-            .allow_any_method()
-            .allow_any_origin()
-            .allow_any_header()
-            .max_age(3600);
+        // let cors = Cors::default()
+        //     .allow_any_method()
+        //     .allow_any_origin()
+        //     .allow_any_header()
+        //     .max_age(3600);
 
         App::new()
             .app_data(app_state.clone())
-            .wrap(cors)
+            // .wrap(cors)
             .route("/blogs", web::get().to(get_blogs))
             .route("/blog", web::get().to(get_blog_by_id))
             .route("/projects", web::get().to(get_projects))
