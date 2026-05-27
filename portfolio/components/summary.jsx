@@ -1,28 +1,6 @@
 "use client";
 import Image from "next/image";
 
-async function get_resume_items () {
-  const baseUrl = process.env.API_URL || "http://localhost:8000";
-
-  if (!baseUrl) {
-    console.warn("API_URL is undefined! Returning empty array for prerender.");
-    return [];
-  }
-
-  try {
-    const res = await fetch(`${baseUrl}/resumes`, {
-      cache: "no-store",
-      next: { tags: ["blogs"] },
-    });
-
-    if (!res.ok) throw new Error("Backend collapsed");
-    return res.json();
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
-}
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import {

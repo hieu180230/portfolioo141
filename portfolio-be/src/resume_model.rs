@@ -1,9 +1,11 @@
 use crate::{appstate::AppState, db::Database};
-use actix_web::{web::Data, HttpResponse, Responder};
-use futures_util::StreamExt;
+use actix_web::{web::Data, HttpResponse};
+use futures_util::TryStreamExt;
 use mongodb::bson::{doc, oid::ObjectId};
 use serde::{Deserialize, Serialize};
-use std::sync::MutexGuard;
+// use std::sync::MutexGuard;
+
+use crate::error::AppError;
 
 //About
 #[derive(Deserialize, Serialize, Clone)]
@@ -74,14 +76,11 @@ pub struct Resume {
     pub skills: Skills,
 }
 
-pub async fn get_resumes(data: Data<AppState>) -> impl Responder {
-    let resumes: MutexGuard<Database> = data.database.lock().unwrap();
-    let mut cursor = resumes.resumes.find(doc! {}).await.unwrap();
+pub async fn get_resumes(data: Data<AppState>) -> Result<HttpResponse, AppError> {
+    let resumes: &Database = &data.database;
+    let cursor = resumes.resumes.find(doc! {}).await?;
 
-    let mut vec_data: Vec<Resume> = Vec::new();
-    while let Some(document) = cursor.next().await {
-        vec_data.push(document.expect("add document to vector error"));
-    }
+    let vec_data: Vec<Resume> = cursor.try_collect().await?;
 
-    HttpResponse::Ok().json(vec_data)
+    Ok(HttpResponse::Ok().json(vec_data))
 }
