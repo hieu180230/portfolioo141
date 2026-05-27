@@ -1,4 +1,4 @@
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 import Loading from "@/app/loading";
 import React from "react";
@@ -10,9 +10,7 @@ async function get_blog(post_id) {
   const baseUrl = process.env.API_URL || "http://localhost:8000";
 
   if (!baseUrl) {
-    console.warn(
-      "API_URL is undefined!",
-    );
+    console.warn("API_URL is undefined!");
     return undefined;
   }
 
@@ -32,18 +30,21 @@ async function get_blog(post_id) {
 
 const BlogView = async ({ searchParams }) => {
   const post_id = (await searchParams).id;
-  console.log(post_id); 
+  console.log(post_id);
   const blog = await get_blog(post_id);
 
-  const from_date = (date_string) => {
-    try {
-      const date = new Date(date_string);
-      return isNaN(date.getTime())
-        ? "Invalid Date"
-        : format(date, "iii LLL dd yyyy");
-    } catch (error) {
-      console.log(error);
+  const from_date = (rawDate) => {
+    if (!rawDate || !rawDate.$date || !rawDate.$date.$numberLong) {
+      return "Unknown Date";
     }
+    const timestampMs = parseInt(rawDate.$date.$numberLong, 10);
+    const dateObj = new Date(timestampMs);
+    return new Intl.DateTimeFormat("en-US", {
+      weekday: "short", // "Sun"
+      month: "short", // "Jun"
+      day: "2-digit", // "08"
+      year: "numeric", // "2025"
+    }).format(dateObj);
   };
 
   return (

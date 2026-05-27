@@ -1,4 +1,4 @@
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 import React from "react";
 import { format, formatDate } from "date-fns";
@@ -10,9 +10,7 @@ async function get_blogs() {
   const baseUrl = process.env.API_URL || "http://localhost:8000";
 
   if (!baseUrl) {
-    console.warn(
-      "API_URL is undefined! Returning empty array for prerender.",
-    );
+    console.warn("API_URL is undefined! Returning empty array for prerender.");
     return [];
   }
 
@@ -30,16 +28,18 @@ async function get_blogs() {
   }
 }
 
-const from_date = (date_string) => {
-  try {
-    const date = new Date(date_string);
-    return isNaN(date.getTime())
-      ? "Invalid Date"
-      : format(date, "iii LLL dd yyyy");
-  } catch (error) {
-    console.error(error);
-    return "Invalid Date";
+const from_date = (rawDate) => {
+  if (!rawDate || !rawDate.$date || !rawDate.$date.$numberLong) {
+    return "Unknown Date";
   }
+  const timestampMs = parseInt(rawDate.$date.$numberLong, 10);
+  const dateObj = new Date(timestampMs);
+  return new Intl.DateTimeFormat("en-US", {
+    weekday: "short", // "Sun"
+    month: "short", // "Jun"
+    day: "2-digit", // "08"
+    year: "numeric", // "2025"
+  }).format(dateObj);
 };
 
 const Blog = async () => {
@@ -50,9 +50,7 @@ const Blog = async () => {
     return (
       <div className="flex flex-col h-full w-full relative">
         <div className="flex flex-row justify-center items-center pt-10">
-          <span
-            className="text-center py-10 text-3xl font-bold uppercase"
-          >
+          <span className="text-center py-10 text-3xl font-bold uppercase">
             « Full blogs »
           </span>
         </div>
@@ -105,9 +103,7 @@ const Blog = async () => {
     return (
       <div className="w-[85rem] h-[110rem] flex flex-col justify-center mx-auto relative">
         <div className="flex flex-row justify-center items-center ">
-          <span
-            className="text-center py-10 h-10 text-3xl font-bold uppercase"
-          >
+          <span className="text-center py-10 h-10 text-3xl font-bold uppercase">
             « latest »
           </span>
         </div>
@@ -277,7 +273,7 @@ const Blog = async () => {
       </div>
     );
   };
-  
+
   return (
     <div className="w-3/4 mx-auto mb-4">
       {/* Body */}
@@ -303,6 +299,6 @@ const Blog = async () => {
       </div> */}
     </div>
   );
-}
+};
 
 export default Blog;
